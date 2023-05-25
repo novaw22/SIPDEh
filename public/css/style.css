@@ -1,0 +1,33 @@
+body{
+    margin: 0;
+}
+
+header{
+    margin-bottom: 100px;
+}
+
+main{
+    margin: 0 100px;
+}
+
+.content{
+    display: flex;
+    justify-content: space-between;
+}
+
+.card{
+    padding: 20px;
+    width: 500px;
+    box-shadow: #282828;
+}
+
+label{
+    font-size: 14px;
+}
+
+p>a{
+    text-decoration: none;
+    font-weight: 700;
+    color: black;
+}
+
