@@ -88,19 +88,19 @@
                         <b>Opps!</b> {{session('error')}}
                     </div>
                 @endif
-              <form action="#" method="post">
+              <form action="{{ route('actionlogin') }}" method="post">
                 @csrf
                 <div class="mb-3">
-                  <label for="username" class="form-label">Email</label>
+                  <label for="email" class="form-label">Email</label>
                   <input
-                    type="username"
+                    type="email"
                     class="form-control @error('name') is-invalid @enderror"
-                    id="name"
-                    name="name"
+                    id="email"
+                    name="email"
                     placeholder="Masukkan email Anda"
                     autofocus
                   />
-                  @error('name')
+                  @error('email')
                     <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
                 </div>

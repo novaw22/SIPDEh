@@ -83,12 +83,12 @@
                 <!-- /Logo -->
               <h4 class="mb-2">Silahkan Register 🚀</h4>
               <p class="mb-4">Lakukan registrasi akun untuk bisa menggunakan semua fitur</p>
-                @if(session('error'))
-                    <div class="alert alert-danger">
-                        <b>Opps!</b> {{session('error')}}
-                    </div>
-                @endif
-              <form action="#" method="post">
+              @if(session('message'))
+              <div class="alert alert-success">
+                  {{session('message')}}
+              </div>
+              @endif
+              <form action="{{route('actionregister')}}" method="post">
                 @csrf
                 <div class="mb-3">
                   <label for="nik" class="form-label">NIK</label>
@@ -105,12 +105,12 @@
                   @enderror
                 </div>
                 <div class="mb-3">
-                  <label for="username" class="form-label">Email</label>
+                  <label for="email" class="form-label">Email</label>
                   <input
-                    type="username"
+                    type="email"
                     class="form-control @error('name') is-invalid @enderror"
-                    id="name"
-                    name="name"
+                    id="email"
+                    name="email"
                     placeholder="Masukkan email Anda"
                     autofocus
                   />
@@ -144,7 +144,7 @@
 
               <p class="text-center">
                 <span>Sudah memiliki akun?</span>
-                <a href="auth-register-basic.html">
+                <a href="{{ route('login') }}">
                   <span>Masuk Sekarang!</span>
                 </a>
               </p>

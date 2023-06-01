@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,9 +47,11 @@ Route::resource('/user/dashboard', App\Http\Controllers\DashboardController::cla
 Route::resource('/user/kelola-dokumen', App\Http\Controllers\PengajuanController::class);
 Route::post('user/ajaxKelola-dokumen', [App\Http\Controllers\PengajuanController::class, 'getData']);
 
-Route::get('/register', function () {
-    return view('auth.register');
-});
-Route::get('/login', function () {
-    return view('auth.login');
-});
+Route::get('register', [RegisterController::class, 'register'])->name('register');
+Route::post('register/action', [RegisterController::class, 'actionregister'])->name('actionregister');
+
+Route::get('/login', [LoginController::class, 'login'])->name('login');
+Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
+
+Route::get('home', [HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::get('actionlogout', [LoginController::class, 'actionlogout'])->name('actionlogout')->middleware('auth');
