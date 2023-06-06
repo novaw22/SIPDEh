@@ -27,7 +27,7 @@ class JenisDokumenController extends Controller
 
     public function getData(Request $request)
     {
-        
+
         $data = DB::table('jenis_dokumens')->whereNull('deleted_at')->get();
 
         $datatables = DataTables::of($data);
@@ -59,8 +59,7 @@ class JenisDokumenController extends Controller
     {
         // Validate the input
         $validator = Validator::make($request->all(), [
-            'nik' => 'required|max:16',
-            'nama' => 'required|max:50',
+            'name' => 'required|max:50',
         ]);
 
         // If validation fails, return the error response
@@ -72,13 +71,13 @@ class JenisDokumenController extends Controller
             ], 422);
         }
 
-        $data = Penduduk::updateOrCreate(
+        $data = JenisDokumen::updateOrCreate(
             ['id' => $request->data_id],
-            ['nik' => $request->nik, 'nama' => $request->nama]
-        );        
-   
+            ['name' => $request->name]
+        );
+
         if($data){
-            $response = array('success'=>1,'msg'=>'Data berhasl disimpan');
+            $response = array('success'=>1,'msg'=>'Data berhasil disimpan');
         }else{
             $response = array('error'=>2,'msg'=>'Data gagal disimpan');
         }
@@ -88,7 +87,7 @@ class JenisDokumenController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Penduduk $penduduk)
+    public function show(JenisDokumen $jenisDokumen)
     {
         //
     }
@@ -98,14 +97,14 @@ class JenisDokumenController extends Controller
      */
     public function edit($id)
     {
-        $penduduk = Penduduk::find($id);
-        return response()->json($penduduk);
+        $jenisDokumen = JenisDokumen::find($id);
+        return response()->json($jenisDokumen);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Penduduk $penduduk)
+    public function update(Request $request, JenisDokumen $jenisDokumen)
     {
         //
     }
@@ -115,7 +114,7 @@ class JenisDokumenController extends Controller
      */
     public function destroy($id)
     {
-        $data = Penduduk::find($id); 
+        $data = JenisDokumen::find($id);
         $data->deleted_at = date('Y-m-d H:i:s');
         //$data->updated_by = auth()->user()->id;
         if($data->save()){

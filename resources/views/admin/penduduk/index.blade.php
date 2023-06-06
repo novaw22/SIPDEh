@@ -8,7 +8,7 @@
 				<div class="card-header d-flex align-items-center justify-content-between">
 					<h5 class="mb-0">List {{$title}}</h5>
 					<a href="javascript:void(0)" id="addNewData" class="btn btn-primary">
-					    <span class="tf-icons bx bx-plus"></span>&nbsp; Tambah Data 
+					    <span class="tf-icons bx bx-plus"></span>&nbsp; Tambah Data
                     </a>
 				</div>
 				<div class="card-body">
@@ -81,7 +81,7 @@
     var table;
     $(document).ready(function() {
         table = $('#{{$table_id}}').DataTable({
-            
+
             "language": {
                 "lengthMenu": "_MENU_",
                 /* 'loadingRecords': '&nbsp;',
@@ -98,7 +98,7 @@
                     params._token = "{{ csrf_token() }}";
                 }
             },
-            
+
             language: {
                 search: "",
                 searchPlaceholder: "Type in to Search",
@@ -115,7 +115,7 @@
                 }
             },
             columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, class: 'text-left' },    
+                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, class: 'text-left' },
                 {
                     data: 'nik',
                     name: 'nik',
@@ -139,12 +139,12 @@
                 }
             ]
         });
-        
+
         $("#{{$table_id}}").DataTable().processing(true);
         $('#{{$table_id}}_filter input').unbind();
         $('#{{$table_id}}_filter input').bind('keyup', function(e) {
             if(e.keyCode == 13) {
-                table.search(this.value).draw();   
+                table.search(this.value).draw();
             }
         });
         $('.dataTables_filter').html('<div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><i class="bi bi-search"></i></span><input type="search" class="form-control form-control-sm" placeholder="Type in to Search" aria-label="Type in to Search" aria-describedby="addon-wrapping"></div>');
@@ -157,7 +157,7 @@
             $('#modelHeading').html("Tambah Data Penduduk");
             $('#ajaxModel').modal('show');
     });
-    
+
     $('body').on('click', '.editData', function () {
         var data_id = $(this).data('id');
         $.get("{{url('/admin/penduduk')}}" +'/' + data_id +'/edit', function (data) {
@@ -169,7 +169,7 @@
             $('#nama').val(data.nama);
         })
     });
-    
+
     $('#saveBtn').click(function (e) {
         e.preventDefault();
         $(this).html('Sending..');

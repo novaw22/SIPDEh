@@ -27,7 +27,7 @@ class SyaratPengajuanController extends Controller
 
     public function getData(Request $request)
     {
-        
+
         $data = DB::table('syarat_pengajuans')->whereNull('deleted_at')->get();
 
         $datatables = DataTables::of($data);
@@ -72,11 +72,11 @@ class SyaratPengajuanController extends Controller
             ], 422);
         }
 
-        $data = Penduduk::updateOrCreate(
+        $data = SyaratPengajuan::updateOrCreate(
             ['id' => $request->data_id],
             ['nik' => $request->nik, 'nama' => $request->nama]
-        );        
-   
+        );
+
         if($data){
             $response = array('success'=>1,'msg'=>'Data berhasl disimpan');
         }else{
@@ -88,7 +88,7 @@ class SyaratPengajuanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Penduduk $penduduk)
+    public function show(SyaratPengajuan $syaratPengajuan)
     {
         //
     }
@@ -98,14 +98,14 @@ class SyaratPengajuanController extends Controller
      */
     public function edit($id)
     {
-        $penduduk = Penduduk::find($id);
+        $penduduk = SyaratPengajuan::find($id);
         return response()->json($penduduk);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Penduduk $penduduk)
+    public function update(Request $request, SyaratPengajuan $syaratPengajuan)
     {
         //
     }
@@ -115,7 +115,7 @@ class SyaratPengajuanController extends Controller
      */
     public function destroy($id)
     {
-        $data = Penduduk::find($id); 
+        $data = SyaratPengajuan::find($id);
         $data->deleted_at = date('Y-m-d H:i:s');
         //$data->updated_by = auth()->user()->id;
         if($data->save()){
