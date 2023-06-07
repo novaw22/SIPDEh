@@ -8,7 +8,7 @@
 				<div class="card-header d-flex align-items-center justify-content-between">
 					<h5 class="mb-0">List {{$title}}</h5>
 					<a href="javascript:void(0)" id="addNewData" class="btn btn-primary">
-					    <span class="tf-icons bx bx-plus"></span>&nbsp; Tambah Data 
+					    <span class="tf-icons bx bx-plus"></span>&nbsp; Tambah Data
                     </a>
 				</div>
 				<div class="card-body">
@@ -52,17 +52,41 @@
                     <input type="hidden" name="data_id" id="data_id">
                     <div class="row">
                         <div class="col mb-3">
-                          <label for="nameBackdrop" class="form-label">NIK</label>
-                          <input type="text" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK Anda" value="" maxlength="16" required="">
-                          <span class="invalid-feedback" id="nik_error"></span>
+                            <label for="nameBackdrop" class="form-label">Jenis Dokumen</label>
+                            <select class="form-select" aria-label="pilih jenis dokumen" name="jenis_dokumen" id="jenis_dokumen" required="">
+                                <option disabled selected>Pilih Jenis Dokumen</option>
+                                @foreach ($jenis_dokumens as $jenis_dokumen)
+                                    <option value="{{ $jenis_dokumen->id }}" {{ $jenis_dokumen->id == $jenis_dokumen_id ? 'selected' : ''}}>{{ $jenis_dokumen->name }}</option>
+                                @endforeach
+                            </select>
+                            <span class="invalid-feedback" id="jenis_dokumen_error"></span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col mb-3">
-                          <label for="nameBackdrop" class="form-label">nama</label>
-                          <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Anda" value="" maxlength="50" required="">
-                          <span class="invalid-feedback" id="nama_error"></span>
+                            <label for="nameBackdrop" class="form-label">Syarat</label>
+                            <input type="text" class="form-control" id="nama_syarat" name="nama_syarat" placeholder="Masukkan Nama Syarat" value="" maxlength="16" required="">
+                            <span class="invalid-feedback" id="nama_syarat_error"></span>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="nameBackdrop" class="form-label">Tipe</label>
+                            <select class="form-select" aria-label="pilih tipe" id="tipe" name="tipe" required="">
+                                <option disabled selected>Pilih Tipe Dokumen</option>
+                                <option value="gambar">Gambar</option>
+                                <option value="pdf">PDF</option>
+                            </select>
+                            <span class="invalid-feedback" id="tipe_error"></span>
+                        </div>
+                    </div>
+                    <div class="col mb-3">
+                        <label for="nameBackdrop" class="form-label">Status</label>
+                        <select class="form-select" aria-label="pilih status" id="wajib" name="wajib" required="">
+                            <option value="1">Wajib</option>
+                            <option value="0">Tidak Wajib</option>
+                        </select>
+                        <span class="invalid-feedback" id="wajib_error"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -83,7 +107,7 @@
     var table;
     $(document).ready(function() {
         table = $('#{{$table_id}}').DataTable({
-            
+
             "language": {
                 "lengthMenu": "_MENU_",
                 /* 'loadingRecords': '&nbsp;',
@@ -100,7 +124,7 @@
                     params._token = "{{ csrf_token() }}";
                 }
             },
-            
+
             language: {
                 search: "",
                 searchPlaceholder: "Type in to Search",
@@ -117,7 +141,7 @@
                 }
             },
             columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, class: 'text-left' },    
+                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, class: 'text-left' },
                 {
                     data: 'jenis_dokumen',
                     name: 'jenis_dokumen',
@@ -155,48 +179,50 @@
                 }
             ]
         });
-        
+
         $("#{{$table_id}}").DataTable().processing(true);
         $('#{{$table_id}}_filter input').unbind();
         $('#{{$table_id}}_filter input').bind('keyup', function(e) {
             if(e.keyCode == 13) {
-                table.search(this.value).draw();   
+                table.search(this.value).draw();
             }
         });
         $('.dataTables_filter').html('<div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><i class="bi bi-search"></i></span><input type="search" class="form-control form-control-sm" placeholder="Type in to Search" aria-label="Type in to Search" aria-describedby="addon-wrapping"></div>');
     });
 
     $('#addNewData').click(function () {
-            $('#saveBtn').val("create-penduduk");
+            $('#saveBtn').val("create-syarat-pengajuan");
             $('#data_id').val('');
             $('#modalForm').trigger("reset");
-            $('#modelHeading').html("Tambah Data Penduduk");
+            $('#modelHeading').html("Tambah Syarat Pengajuan");
             $('#ajaxModel').modal('show');
     });
-    
+
     $('body').on('click', '.editData', function () {
         var data_id = $(this).data('id');
-        $.get("{{url('/admin/penduduk')}}" +'/' + data_id +'/edit', function (data) {
-            $('#modelHeading').html("Edit Data Penduduk");
-            $('#saveBtn').val("edit-penduduk");
+        $.get("{{url('/admin/syarat-pengajuan')}}" +'/' + data_id +'/edit', function (data) {
+            $('#modelHeading').html("Edit Syarat Pengajuan");
+            $('#saveBtn').val("edit-syarat-pengajuan");
             $('#ajaxModel').modal('show');
             $('#data_id').val(data.id);
-            $('#nik').val(data.nik);
-            $('#nama').val(data.nama);
+            $('#jenis_dokumen').val(data.jenis_dokumen_id);
+            $('#nama_syarat').val(data.nama_syarat);
+            $('#tipe').val(data.tipe);
+            $('#wajib').val(data.wajib);
         })
     });
-    
+
     $('#saveBtn').click(function (e) {
         e.preventDefault();
         $(this).html('Sending..');
 
         // Remove the error handling for the "NIK" and "Nama" fields
-        $('#nik, #nama').removeClass('is-invalid');
-        $('#nik-error, #nama-error').remove();
+        $('#jenis_dokumen', '#nama_syarat', 'tipe', '#wajib').removeClass('is-invalid');
+        $('jenis_dokumen-error', '#nama_syarat-error', 'tipe-error', '#wajib-error').remove();
 
         $.ajax({
             data: $('#modalForm').serialize(),
-            url:"{{url('/admin/penduduk')}}",
+            url:"{{url('/admin/syarat-pengajuan')}}",
             type: "POST",
             dataType: 'json',
             success: function (data) {
@@ -240,7 +266,7 @@
     function deleteData(id){
         Swal.fire({
             icon:'warning',
-            text: 'Hapus Data Penduduk?',
+            text: 'Hapus Syarat Pengajuan?',
             showCancelButton: true,
             confirmButtonText: 'Hapus',
             cancelButtonText: 'Batal',
@@ -248,7 +274,7 @@
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 $.ajax({
-                    url:"{{url('/admin/penduduk')}}/"+id,
+                    url:"{{url('/admin/syarat-pengajuan')}}/"+id,
                     data:{
                         _method:"DELETE",
                         _token:"{{csrf_token()}}"
