@@ -20,3 +20,8 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('login');
 });
+
+Route::prefix("/")->name("user.pengajuan.")->group(function () {
+    Route::get("/pengajuan/{jenis_dokumen}")->name("show");
+    Route::post("/pengajuan/save")->name("save");
+});
