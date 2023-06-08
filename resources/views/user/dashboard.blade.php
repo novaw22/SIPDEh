@@ -1,5 +1,5 @@
-@extends('admin.layouts_dashboard.app') 
-@section('content') 
+@extends('admin.layouts_dashboard.app')
+@section('content')
 <!-- Content -->
 
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -35,7 +35,7 @@
 				</div>
 				<div id="growthChart"></div>
 				<div class="text-center fw-semibold pt-3 mb-2">62% Company Growth</div>
-  
+
 				<div class="d-flex px-xxl-4 px-lg-2 p-4 gap-xxl-3 gap-lg-1 gap-3 justify-content-between">
 				  <div class="d-flex">
 					<div class="me-2">
@@ -75,7 +75,6 @@
 				  </div>
 				</div>
 				<span class="fw-semibold d-block mb-1">Penduduk</span>
-				<h3 class="card-title mb-2">{{$penduduk_count}}</h3>
 			  </div>
 			</div>
 		  </div>
@@ -92,7 +91,6 @@
 				  </div>
 				</div>
 				<span class="fw-semibold d-block mb-1">Jenis Dokumen</span>
-				<h3 class="card-title text-nowrap mb-1">{{$jenis_dokumen_count}}</h3>
 			  </div>
 			</div>
 		  </div>
@@ -105,7 +103,6 @@
 				  </div>
 				</div>
 				<span class="fw-semibold d-block mb-1">Syarat Pengajuan</span>
-				<h3 class="card-title text-nowrap mb-2">{{$syarat_pengajuan_count}}</h3>
 			  </div>
 			</div>
 		  </div>
@@ -118,7 +115,6 @@
 				  </div>
 				</div>
 				<span class="fw-semibold d-block mb-1">Pengajuan Dokumen</span>
-				<h3 class="card-title mb-2">{{$pengajuan_dokumen_count}}</h3>
 			  </div>
 			</div>
 		  </div>

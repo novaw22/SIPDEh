@@ -44,7 +44,7 @@ Route::post('admin/ajaxKelola-dokumen', [App\Http\Controllers\KelolaDokumenContr
 
 // Route User
 Route::resource('/user/dashboard', App\Http\Controllers\DashboardController::class);
-Route::resource('/user/kelola-dokumen', App\Http\Controllers\PengajuanController::class);
+Route::resource('/user/kelola-dokumen', App\Http\Controllers\PengajuanController::class)->middleware('auth');
 Route::post('user/ajaxKelola-dokumen', [App\Http\Controllers\PengajuanController::class, 'getData']);
 
 Route::get('register', [RegisterController::class, 'register'])->name('register');
