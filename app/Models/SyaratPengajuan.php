@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class SyaratPengajuan extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $fillable = [
+        'jenis_dokumen_id', 'nama_syarat', 'tipe', 'wajib'
+    ];
 
     public function jenisDokumen() {
         return $this->belongsTo(JenisDokumen::class);
