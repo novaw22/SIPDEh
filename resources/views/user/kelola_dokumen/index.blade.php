@@ -67,7 +67,7 @@
 var table;
 $(document).ready(function() {
     table = $('#{{$table_id}}').DataTable({
-        
+
         "language": {
             "lengthMenu": "_MENU_",
             /* 'loadingRecords': '&nbsp;',
@@ -78,13 +78,13 @@ $(document).ready(function() {
         ordering: true,
         serverSide: true,
         ajax: {
-            url: '{{url("admin/ajaxKelola-dokumen")}}',
+            url: '{{url("user/ajaxKelola-dokumen")}}',
             type:"POST",
             data: function(params) {
                 params._token = "{{ csrf_token() }}";
             }
         },
-        
+
         language: {
             search: "",
             searchPlaceholder: "Type in to Search",
@@ -101,7 +101,7 @@ $(document).ready(function() {
             }
         },
         columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, class: 'text-left' },    
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, class: 'text-left' },
             {
                 data: 'nama_pengaju',
                 name: 'nama_pengaju',
@@ -139,12 +139,12 @@ $(document).ready(function() {
             }
         ]
     });
-    
+
     $("#{{$table_id}}").DataTable().processing(true);
     $('#{{$table_id}}_filter input').unbind();
     $('#{{$table_id}}_filter input').bind('keyup', function(e) {
         if(e.keyCode == 13) {
-            table.search(this.value).draw();   
+            table.search(this.value).draw();
         }
     });
     $('.dataTables_filter').html('<div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><i class="bi bi-search"></i></span><input type="search" class="form-control form-control-sm" placeholder="Type in to Search" aria-label="Type in to Search" aria-describedby="addon-wrapping"></div>');

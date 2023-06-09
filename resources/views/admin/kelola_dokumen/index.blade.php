@@ -7,9 +7,9 @@
 			<div class="card mb-4">
 				<div class="card-header d-flex align-items-center justify-content-between">
 					<h5 class="mb-0">List {{$title}}</h5>
-					<a href="/admin/museum/create" class="btn btn-primary">
-					    <span class="tf-icons bx bx-plus"></span>&nbsp; Tambah Data 
-                    </a>
+					{{-- <a href="/admin/museum/create" class="btn btn-primary">
+					    <span class="tf-icons bx bx-plus"></span>&nbsp; Tambah Data
+                    </a> --}}
 				</div>
 				<div class="card-body">
                     <div class="table-responsive text-nowrap">
@@ -39,7 +39,7 @@
 var table;
 $(document).ready(function() {
     table = $('#{{$table_id}}').DataTable({
-        
+
         "language": {
             "lengthMenu": "_MENU_",
             /* 'loadingRecords': '&nbsp;',
@@ -56,7 +56,7 @@ $(document).ready(function() {
                 params._token = "{{ csrf_token() }}";
             }
         },
-        
+
         language: {
             search: "",
             searchPlaceholder: "Type in to Search",
@@ -73,7 +73,7 @@ $(document).ready(function() {
             }
         },
         columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, class: 'text-left' },    
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, class: 'text-left' },
             {
                 data: 'nama_pengaju',
                 name: 'nama_pengaju',
@@ -111,12 +111,12 @@ $(document).ready(function() {
             }
         ]
     });
-    
+
     $("#{{$table_id}}").DataTable().processing(true);
     $('#{{$table_id}}_filter input').unbind();
     $('#{{$table_id}}_filter input').bind('keyup', function(e) {
         if(e.keyCode == 13) {
-            table.search(this.value).draw();   
+            table.search(this.value).draw();
         }
     });
     $('.dataTables_filter').html('<div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><i class="bi bi-search"></i></span><input type="search" class="form-control form-control-sm" placeholder="Type in to Search" aria-label="Type in to Search" aria-describedby="addon-wrapping"></div>');
