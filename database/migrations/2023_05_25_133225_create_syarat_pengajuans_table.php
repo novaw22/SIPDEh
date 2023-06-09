@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string("nama_syarat");
             $table->enum("tipe", ["gambar", "pdf"]);
             $table->boolean("wajib");
-            $table->softDeletes();
             $table->foreign("jenis_dokumen_id")->references('id')->on('jenis_dokumens')->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

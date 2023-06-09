@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use App\Models\JenisDokumen;
 
 class PengajuanController extends Controller
 {
@@ -17,11 +18,13 @@ class PengajuanController extends Controller
      */
     public function index()
     {
+        $documentTypes = JenisDokumen::all();
         return view('user.kelola_dokumen.index', [
             "title" => "Kelola Dokumen",
             // "posts" => Post::all()
             "active" => "Pengajuan",
-            "table_id" => "kelola_dokumen_id"
+            "table_id" => "kelola_dokumen_id",
+            "types" => $documentTypes
         ]);
     }
 
@@ -60,9 +63,14 @@ class PengajuanController extends Controller
      */
     public function create(Request $request)
     {
-        $jenis_dokumen = $request->jenis_dokumen;
+        $jenis_dokumen_id = $request->jenis_dokumen;
+        
+        $jenis_dokumen = JenisDokumen::findOrFail($jenis_dokumen_id);
+
+        $syarats = $jenis_dokumen->syarats;
         return view('user.kelola_dokumen.add',[
-            'jenis_dokumen' => $jenis_dokumen
+            'jenis_dokumen' => $jenis_dokumen,
+            'syarats' => $syarats
         ]);
     }
 
