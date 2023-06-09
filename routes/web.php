@@ -47,8 +47,12 @@ Route::resource('/admin/kelola-dokumen', App\Http\Controllers\KelolaDokumenContr
 Route::post('admin/ajaxKelola-dokumen', [App\Http\Controllers\KelolaDokumenController::class, 'getData']);
 
 // Route User
-Route::resource('/user/dashboard', App\Http\Controllers\DashboardController::class);
-Route::resource('/user/kelola-dokumen', App\Http\Controllers\PengajuanController::class)->middleware('auth');
+
+Route::prefix("/user")->name("user.")->group(function() {
+    Route::get("/dashboard", [App\Http\Controllers\DashboardController::class, "index"]);
+    Route::resource('documents', App\Http\Controllers\PengajuanController::class)->middleware('auth');
+});
+// Route::resource('/user/dashboard', App\Http\Controllers\DashboardController::class);
 Route::post('user/ajaxKelola-dokumen', [App\Http\Controllers\PengajuanController::class, 'getData']);
 
 Route::get('register', [RegisterController::class, 'register'])->name('register');

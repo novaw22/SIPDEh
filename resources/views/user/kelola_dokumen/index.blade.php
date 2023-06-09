@@ -25,11 +25,12 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
-                                        <form action="/user/kelola-dokumen/create">
-                                            <div class="d-grid gap-2 col-lg-8 mx-auto">
-                                                <input type="text" name="jenis_dokumen" id="jenis_dokumen" value="Surat Keramaian" hidden>
-                                                <button class="btn btn-outline-primary" type="submit">Surat Keramaian</button>
-                                            </div>
+                                        <form action="">
+                                            @foreach ($types as $type)
+                                                <div class="d-grid gap-2 col-lg-8 mx-auto">
+                                                    <a href="{{ route('user.documents.create', ["jenis_dokumen" => $type->id ]) }}" class="btn btn-outline-primary">{{ $type->name }}</a>
+                                                </div>
+                                            @endforeach
                                         </form>
                                     </div>
                                 </div>
