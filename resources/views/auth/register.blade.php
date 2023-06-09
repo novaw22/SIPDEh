@@ -108,13 +108,13 @@
                   <label for="email" class="form-label">Email</label>
                   <input
                     type="email"
-                    class="form-control @error('name') is-invalid @enderror"
+                    class="form-control @error('email') is-invalid @enderror"
                     id="email"
                     name="email"
                     placeholder="Masukkan email Anda"
                     autofocus
                   />
-                  @error('name')
+                  @error('email')
                     <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
                 </div>
