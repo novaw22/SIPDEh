@@ -1,9 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Resource\JenisDocumentController;
+use App\Http\Controllers\Resource\UserController;
+use App\Http\Controllers\Resource\LocalCivilianController;
+use App\Http\Controllers\Resource\SubmissionController;
+use App\Http\Controllers\User\UserSubmissionController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\Asset\SubmissionAssetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,46 +23,55 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::get('/clear-cache', function() {
-    $exitCode1 = Artisan::call('cache:clear');
-    $exitCode2 = Artisan::call('config:clear');
-    $exitCode3 = Artisan::call('view:clear');
-    $exitCode4 = Artisan::call('route:clear');
-    // $exitCode2 = Artisan::call('vendor:publish');
-    // return what you want
-    return "Clear Success";
-});
-
-
 Route::get('/', function () {
     return view('welcome');
+})->name("landing");
+
+Route::get("/dashboard/redirect", [PageController::class, "dashboard"])->middleware(["auth"])->name("dashboard");
+Route::get("/profile/redirect", [PageController::class, "profile"])->middleware(["auth"])->name("profile");
+
+Route::name("auth.")->group(function () {
+    Route::middleware(["guest"])->group(function() {
+        Route::get("/login", [AuthController::class, "login"])->name("login");
+        Route::get("/register", [AuthController::class, "register"])->name("register");
+        Route::post("/authenticate", [AuthController::class, "authenticate"])->name("authenticate");
+        Route::post("/register/process", [AuthController::class, "registerProcess"])->name("register.process");
+    });
+    Route::post("/logout", [AuthController::class, "logout"])->middleware(["auth"])->name("logout");
 });
 
-Route::prefix("/")->name("user.pengajuan.")->group(function () {
-    Route::get("/pengajuan/{jenis_dokumen}")->name("show");
-    Route::post("/pengajuan/save")->name("save");
+Route::middleware(["auth", "user"])->name("user.")->group(function () {
+    Route::get("/dashboard", [DashboardController::class, "dashboard"])->name("dashboard");
+    Route::get("/profile", [DashboardController::class, "profile"])->name("profile");
+    Route::patch('/{user}/profile/save', [DashboardController::class, 'profileSave'])->name("profile.save");
+
+    Route::prefix("/pengajuan")->name("submission.")->group(function() {
+        Route::middleware(["withUserAllowedDocumentTypes"])->group(function() {
+            Route::get("/", [UserSubmissionController::class, "index"])->name('index');
+            Route::get("/tambah", [UserSubmissionController::class, "create"])->name('create');
+        });
+        Route::get("/{submission}/detail", [UserSubmissionController::class, "detail"])->name("detail");
+        Route::get("/{submission}/edit", [UserSubmissionController::class, "edit"])->name("edit");
+        Route::post("/{type}", [UserSubmissionController::class, "store"])->name('store');
+        Route::patch("/{submission}", [UserSubmissionController::class, "update"])->name('update');
+        Route::patch("/{submission}/cancel", [UserSubmissionController::class, "cancel"])->name('cancel');
+    });
 });
-// Route Admin
-Route::resource('/admin/dashboard', App\Http\Controllers\DashboardController::class);
-Route::resource('/admin/penduduk', App\Http\Controllers\PendudukController::class);
-Route::post('admin/ajaxPenduduk', [App\Http\Controllers\PendudukController::class, 'getData']);
-Route::resource('/admin/jenis-dokumen', App\Http\Controllers\JenisDokumenController::class);
-Route::post('admin/ajaxJenis-dokumen', [App\Http\Controllers\JenisDokumenController::class, 'getData']);
-Route::resource('/admin/syarat-pengajuan', App\Http\Controllers\SyaratPengajuanController::class);
-Route::post('admin/ajaxSyarat-pengajuan', [App\Http\Controllers\SyaratPengajuanController::class, 'getData']);
-Route::resource('/admin/kelola-dokumen', App\Http\Controllers\KelolaDokumenController::class);
-Route::post('admin/ajaxKelola-dokumen', [App\Http\Controllers\KelolaDokumenController::class, 'getData']);
 
-// Route User
-Route::resource('/user/dashboard', App\Http\Controllers\DashboardController::class);
-Route::resource('/user/kelola-dokumen', App\Http\Controllers\PengajuanController::class)->middleware('auth');
-Route::post('user/ajaxKelola-dokumen', [App\Http\Controllers\PengajuanController::class, 'getData']);
+Route::prefix("/admin")->middleware(["auth", "admin"])->name("admin.")->group(function () {
+    Route::resource("documents", JenisDocumentController::class);
+    Route::resource("users", UserController::class);
+    Route::resource("civilians", LocalCivilianController::class);
+    Route::resource("submissions", SubmissionController::class);
+    Route::get("/dashboard", [AdminDashboardController::class, "dashboard"])->name("dashboard");
+    Route::get("/profile", [AdminDashboardController::class, "profile"])->name("profile");
+    Route::patch('/{user}/profile/save', [AdminDashboardController::class, 'profileSave'])->name("profile.save");
+});
 
-Route::get('register', [RegisterController::class, 'register'])->name('register');
-Route::post('register/action', [RegisterController::class, 'actionregister'])->name('actionregister');
-
-Route::get('/login', [LoginController::class, 'login'])->name('login');
-Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
-
-Route::get('home', [HomeController::class, 'index'])->name('home')->middleware('auth');
-Route::get('actionlogout', [LoginController::class, 'actionlogout'])->name('actionlogout')->middleware('auth');
+Route::prefix("/assets")->middleware(["auth"])->name("assets.")->group(function() {
+    Route::prefix("/submission")->name("submission.")->group(function() {
+        Route::get("/file/{submission}", [SubmissionAssetController::class, "file"])->name("file");
+        Route::get("/soft_copy/{submission}",[SubmissionAssetController::class, "softCopy"])->name("softCopy");
+        Route::get("/details/{submissionDetail}", [SubmissionAssetController::class, "detail"])->name("detail");
+    });
+});
