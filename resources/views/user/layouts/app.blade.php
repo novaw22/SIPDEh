@@ -86,7 +86,6 @@
     <script src="{{ asset('admin/assets/js/config.js') }}"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
     <!-- Boostrap Icon -->
     <link
       rel="stylesheet"
