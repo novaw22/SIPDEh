@@ -88,15 +88,16 @@
                         <b>Opps!</b> {{session('error')}}
                     </div>
                 @endif
-              <form action="{{ route('actionlogin') }}" method="post">
+              <form action="{{ route('auth.authenticate') }}" method="post">
                 @csrf
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
                   <input
                     type="email"
-                    class="form-control @error('name') is-invalid @enderror"
+                    class="form-control @error('email') is-invalid @enderror"
                     id="email"
                     name="email"
+                    value="{{ old("email") }}"
                     placeholder="Masukkan email Anda"
                     autofocus
                   />
@@ -124,7 +125,7 @@
                   </div>
                   <div class="mt-2">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="remember-me" />
+                      <input class="form-check-input" type="checkbox" id="remember-me" name="remember" />
                       <label class="form-check-label" for="remember-me"> Remember Me </label>
                     </div>
                   </div>
@@ -136,7 +137,7 @@
 
               <p class="text-center">
                 <span>Belum memiliki akun?</span>
-                <a href="auth-register-basic.html">
+                <a href="{{ route('auth.register') }}">
                   <span>Register Sekarang!</span>
                 </a>
               </p>

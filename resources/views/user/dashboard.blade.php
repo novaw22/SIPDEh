@@ -1,125 +1,83 @@
-@extends('admin.layouts_dashboard.app')
+@extends('user.layouts.app')
+@section('title', "Dashboard")
 @section('content')
 <!-- Content -->
 
 <div class="container-xxl flex-grow-1 container-p-y">
 	<div class="row">
-	  <div class="col-lg-8 mb-4 order-0">
-		<div class="card">
-			<div class="row row-bordered g-0">
-			  <div class="col-md-8">
-				<h5 class="card-header m-0 me-2 pb-3">Total Pengajuan</h5>
-				<div id="totalRevenueChart" class="px-2"></div>
-			  </div>
-			  <div class="col-md-4">
+		<div class="col-lg-12 mb-4 order-0">
+			<div class="card h-100">
 				<div class="card-body">
-				  <div class="text-center">
-					<div class="dropdown">
-					  <button
-						class="btn btn-sm btn-outline-primary dropdown-toggle"
-						type="button"
-						id="growthReportId"
-						data-bs-toggle="dropdown"
-						aria-haspopup="true"
-						aria-expanded="false"
-					  >
-						2022
-					  </button>
-					  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="growthReportId">
-						<a class="dropdown-item" href="javascript:void(0);">2021</a>
-						<a class="dropdown-item" href="javascript:void(0);">2020</a>
-						<a class="dropdown-item" href="javascript:void(0);">2019</a>
-					  </div>
+					<div class="card-title d-flex align-items-start justify-content-between">
+						<h1 class="fw-semibold d-block mb-1 fs-4 d-flex align-items-center">
+							<span class="d-block text-primary">Dashboard</span>
+						</h1>
 					</div>
-				  </div>
-				</div>
-				<div id="growthChart"></div>
-				<div class="text-center fw-semibold pt-3 mb-2">62% Company Growth</div>
-
-				<div class="d-flex px-xxl-4 px-lg-2 p-4 gap-xxl-3 gap-lg-1 gap-3 justify-content-between">
-				  <div class="d-flex">
-					<div class="me-2">
-					  <span class="badge bg-label-primary p-2"><i class="bx bx-dollar text-primary"></i></span>
+					<div class="mt-4">
+						<p>SIPdeh (Sistem Informasi Pengajuan Dokumen) merupakan suatu sistem informasi yang dibangun untuk memberikan kemudahan kepada masyarakat yang berada di lingkungan ** maupun masyarakat yang berada di luar lingkungan ** dalam hal mengurus surat-menyurat dengan kepala lingkungan. Lihat FAQ atau halaman dokumentasi untuk mendapatkan informasi selengkapnya mengenai cara penggunaan aplikasi SIPdeh.</p>
 					</div>
-					<div class="d-flex flex-column">
-					  <small>2022</small>
-					  <h6 class="mb-0">$32.5k</h6>
-					</div>
-				  </div>
-				  <div class="d-flex">
-					<div class="me-2">
-					  <span class="badge bg-label-info p-2"><i class="bx bx-wallet text-info"></i></span>
-					</div>
-					<div class="d-flex flex-column">
-					  <small>2021</small>
-					  <h6 class="mb-0">$41.2k</h6>
-					</div>
-				  </div>
 				</div>
-			  </div>
 			</div>
-		  </div>
-	  </div>
-	  <div class="col-lg-4 col-md-4 order-1">
-		<div class="row">
-		  <div class="col-lg-6 col-md-12 col-6 mb-4">
-			<div class="card">
-			  <div class="card-body">
-				<div class="card-title d-flex align-items-start justify-content-between">
-				  <div class="avatar flex-shrink-0">
-					<img
-					  src="{{ asset('admin/assets/img/icons/unicons/chart-success.png') }}"
-					  alt="chart success"
-					  class="rounded"
-					/>
-				  </div>
-				</div>
-				<span class="fw-semibold d-block mb-1">Penduduk</span>
-			  </div>
-			</div>
-		  </div>
-		  <div class="col-lg-6 col-md-12 col-6 mb-4">
-			<div class="card">
-			  <div class="card-body">
-				<div class="card-title d-flex align-items-start justify-content-between">
-				  <div class="avatar flex-shrink-0">
-					<img
-					  src="{{ asset('admin/assets/img/icons/unicons/wallet-info.png') }}"
-					  alt="Credit Card"
-					  class="rounded"
-					/>
-				  </div>
-				</div>
-				<span class="fw-semibold d-block mb-1">Jenis Dokumen</span>
-			  </div>
-			</div>
-		  </div>
-		  <div class="col-lg-6 col-md-12 col-6 mb-4">
-			<div class="card">
-			  <div class="card-body">
-				<div class="card-title d-flex align-items-start justify-content-between">
-				  <div class="avatar flex-shrink-0">
-					<img src="{{ asset('admin/assets/img/icons/unicons/paypal.png') }}" alt="Credit Card" class="rounded" />
-				  </div>
-				</div>
-				<span class="fw-semibold d-block mb-1">Syarat Pengajuan</span>
-			  </div>
-			</div>
-		  </div>
-		  <div class="col-lg-6 col-md-12 col-6 mb-4">
-			<div class="card">
-			  <div class="card-body">
-				<div class="card-title d-flex align-items-start justify-content-between">
-				  <div class="avatar flex-shrink-0">
-					<img src="{{ asset('admin/assets/img/icons/unicons/cc-primary.png') }}" alt="Credit Card" class="rounded" />
-				  </div>
-				</div>
-				<span class="fw-semibold d-block mb-1">Pengajuan Dokumen</span>
-			  </div>
-			</div>
-		  </div>
 		</div>
-	  </div>
-  </div>
+	</div>
+	<div class="row">
+		<div class="col-lg-7 mb-4 order-0">
+			<div class="card h-100">
+				<div class="card-body">
+					<div class="card-title d-flex align-items-start justify-content-between">
+						<h1 class="fw-semibold d-block mb-1 fs-4 text-primary">Pengumuman</h1>
+					</div>
+					<div class="mt-4 border p-3 rounded-3">
+						<p>SIPdeh (Sistem Informasi Pengajuan Dokumen) merupakan suatu sistem informasi yang dibangun untuk memberikan kemudahan kepada masyarakat yang berada di lingkungan ** maupun masyarakat yang berada di luar lingkungan ** dalam hal mengurus surat-menyurat dengan kepala lingkungan. Lihat FAQ atau halaman dokumentasi untuk mendapatkan informasi selengkapnya mengenai cara penggunaan aplikasi SIPdeh.</p>
+						<div class="mt-4 d-flex justify-content-end">
+							<span class="me-2">--</span>
+							<span>Admin</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-5 mb-4 order-0">
+			<div class="card h-100">
+				<div class="card-body">
+					<div class="card-title d-flex align-items-start justify-content-between">
+						<h1 class="fw-semibold d-block mb-1 fs-4 text-primary">Histori Pengajuan</h1>
+					</div>
+					<div class="mt-4">
+						<ul class="list-group">
+							<li class="list-group-item" aria-current="true">
+								<div class="d-flex p-2 justify-content-between align-items-center">
+									<small>
+										<span>Document Pengantar Kematian</span>
+										<small class="d-block text-muted">24 Juni 2023</small>
+									</small>
+									<small class="bg-warning px-2 rounded-3 text-white">menunggu</small>
+								</div>
+							</li>
+							<li class="list-group-item" aria-current="true">
+								<div class="d-flex p-2 justify-content-between align-items-center">
+									<small>Document Pengantar</small>
+									<small class="bg-warning px-2 rounded-3 text-white">menunggu</small>
+								</div>
+							</li>
+							<li class="list-group-item" aria-current="true">
+								<div class="d-flex p-2 justify-content-between align-items-center">
+									<small>Document Pengantar</small>
+									<small class="bg-danger px-2 rounded-3 text-white">ditolak</small>
+								</div>
+							</li>
+							<li class="list-group-item" aria-current="true">
+								<div class="d-flex p-2 justify-content-between align-items-center">
+									<small>Document Pengantar</small>
+									<small class="bg-success px-2 rounded-3 text-white">disetujui</small>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
   <!-- / Content -->
 @endsection
