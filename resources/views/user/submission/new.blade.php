@@ -69,13 +69,13 @@
                         <div class="mb-4 flex">
                             <label for="description" class="form-label">Dokumen Jadi</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" value="0" name="is_softcopy" id="flexRadioDefault1">
+                                <input class="form-check-input" type="radio" value="1" name="is_softcopy" id="flexRadioDefault1">
                                 <label class="form-check-label" for="flexRadioDefault1">
                                     Dokumen Digital (dalam bentuk PDF)
                                 </label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="radio" value="1" name="is_softcopy" id="flexRadioDefault2" checked>
+                                <input class="form-check-input" type="radio" value="0" name="is_softcopy" id="flexRadioDefault2" checked>
                                 <label class="form-check-label" for="flexRadioDefault2">
                                     Dokumen Fisik (tanda tangan di kantor)
                                 </label>
