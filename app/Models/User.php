@@ -17,8 +17,9 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $guarded = [
-        'id'
+    protected $fillable = [
+        'email',
+        'password',
     ];
 
     /**
@@ -40,4 +41,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function profile() {
+        return $this->hasOne(Profile::class);
+    }
+
+    public function submissions() {
+        return $this->hasMany(Submission::class)->orderBy("updated_at", "desc");
+    }
 }

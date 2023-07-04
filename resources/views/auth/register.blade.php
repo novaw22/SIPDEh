@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <!-- =========================================================
@@ -88,7 +87,7 @@
                   {{session('message')}}
               </div>
               @endif
-              <form action="{{route('actionregister')}}" method="post">
+              <form action="{{ route('auth.register.process') }}" method="post">
                 @csrf
                 <div class="mb-3">
                   <label for="nik" class="form-label">NIK</label>
@@ -98,6 +97,7 @@
                     id="nik"
                     name="nik"
                     placeholder="Masukkan NIK Anda"
+                    value="{{ old("nik") }}"
                     autofocus
                   />
                   @error('nik')
@@ -111,10 +111,56 @@
                     class="form-control @error('email') is-invalid @enderror"
                     id="email"
                     name="email"
+                    value="{{ old("email") }}"
                     placeholder="Masukkan email Anda"
                     autofocus
                   />
                   @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+                </div>
+                <div class="mb-3">
+                  <label for="fullname" class="form-label">Nama Lengkap</label>
+                  <input
+                    type="text"
+                    class="form-control @error('fullname') is-invalid @enderror"
+                    id="fullname"
+                    name="fullname"
+                    value="{{ old("fullname") }}"
+                    placeholder="Masukkan nama lengkap anda"
+                    autofocus
+                  />
+                  @error('fullname')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+                </div>
+                <div class="mb-3">
+                  <label for="phone" class="form-label">No. Telp</label>
+                  <input
+                    type="text"
+                    class="form-control @error('phone') is-invalid @enderror"
+                    id="phone"
+                    name="phone"
+                    value="{{ old("phone") }}"
+                    placeholder="Masukkan no. telp Anda"
+                    autofocus
+                  />
+                  @error('phone')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+                </div>
+                <div class="mb-3">
+                  <label for="phone" class="form-label">Alamat</label>
+                  <input
+                    type="text"
+                    class="form-control @error('address') is-invalid @enderror"
+                    id="address"
+                    name="address"
+                    value="{{ old("address") }}"
+                    placeholder="Masukkan alamat lengkap Anda"
+                    autofocus
+                  />
+                  @error('address')
                     <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
                 </div>
@@ -137,6 +183,25 @@
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
                 </div>
+                <div class="mb-3 form-password-toggle">
+                  <div class="d-flex justify-content-between">
+                    <label class="form-label" for="confirm">Konfirmasi Password</label>
+                  </div>
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="password"
+                      id="confirm"
+                      class="form-control @error('password_confirmation') is-invalid @enderror"
+                      name="password_confirmation"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      aria-describedby="confirm"
+                    />
+                    @error('password_confirmation')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
                 <div class="mb-3 pt-3">
                   <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
                 </div>
@@ -144,7 +209,7 @@
 
               <p class="text-center">
                 <span>Sudah memiliki akun?</span>
-                <a href="{{ route('login') }}">
+                <a href="{{ route('auth.login') }}">
                   <span>Masuk Sekarang!</span>
                 </a>
               </p>
