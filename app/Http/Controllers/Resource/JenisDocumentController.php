@@ -52,6 +52,10 @@ class JenisDocumentController extends Controller
         $data = $request->validated();
         DB::beginTransaction();
         try {
+            if($request->hasFile("template")){
+                $path = $request->file("template")->store("/documents/templates/");
+                $data["template"] = $path;
+            }
             $document = JenisDocument::create($data);
             $userStatuses = UserStatuses::cases();
 

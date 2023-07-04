@@ -16,6 +16,7 @@ class LocalCivilianController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize("viewAny", LocalCivilian::class);
         $keyword = $request->query("q", "");
         $civilians = LocalCivilian::where("fullname", "LIKE", "%{$keyword}")
             ->orWhere("nik", $keyword)
@@ -30,6 +31,7 @@ class LocalCivilianController extends Controller
      */
     public function create()
     {
+        $this->authorize("create", LocalCivilian::class);
         return view("admin.civilians.create");
     }
 
@@ -38,6 +40,7 @@ class LocalCivilianController extends Controller
      */
     public function store(StoreLocalCivilianRequest $request)
     {
+        $this->authorize("create", LocalCivilian::class);
         $data = $request->validated();
         $data["age"] = Carbon::parse($data["date_of_birth"])->age;
         LocalCivilian::create($data);
@@ -49,6 +52,7 @@ class LocalCivilianController extends Controller
      */
     public function show(LocalCivilian $civilian)
     {
+        $this->authorize("view", $civilian);
         return view("admin.civilians.detail")->with("civilian", $civilian);
     }
 
@@ -57,6 +61,7 @@ class LocalCivilianController extends Controller
      */
     public function edit(LocalCivilian $civilian)
     {
+        $this->authorize("update", $civilian);
         return view('admin.civilians.edit')->with('civilian',$civilian);
     }
 
@@ -65,6 +70,7 @@ class LocalCivilianController extends Controller
      */
     public function update(UpdateLocalCivilianRequest $request, LocalCivilian $civilian)
     {
+        $this->authorize("update", $civilian);
         $data = $request->validated();
         $data["age"] = Carbon::parse($data["date_of_birth"])->age;
         $civilian->update($data);
@@ -77,6 +83,7 @@ class LocalCivilianController extends Controller
      */
     public function destroy(LocalCivilian $civilian)
     {
+        $this->authorize("delete", LocalCivilian::class);
         $civilian->delete();
         return redirect()->route('admin.civilians.index')->with('error', "berhasil menghapus penduduk");
     }

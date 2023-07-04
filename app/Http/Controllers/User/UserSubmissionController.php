@@ -45,6 +45,7 @@ class UserSubmissionController extends Controller
     }
 
     public function cancel(Submission $submission) {
+        $this->authorize("delete", $submission);
         $submission->status = SubmissionStatuses::Cancelled->value;
         $submission->save();
         return redirect()->back()->with("error", "berhasil membatalkan pengajuan");
@@ -61,6 +62,9 @@ class UserSubmissionController extends Controller
 
     public function update(UpdateUserSubmissionRequest $request, Submission $submission){
         $this->authorize("update", $submission);
+        if($submission->status === SubmissionStatuses::Cancelled->value || $submission->status === SubmissionStatuses::Accepted->value || $submission->status === SubmissionStatuses::Rejected->value) {
+            return redirect()->route('user.submission.index')->with("error", "tidak bisa update pengajuan");
+        }
         $data = $request->validated();
         DB::beginTransaction();
         try {

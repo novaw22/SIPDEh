@@ -42,11 +42,26 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <label for="description" class="form-label">Deskripsi Jenis Dokumen</label>
                             <textarea class="form-control @error('description') is-invalid @enderror" id="description"
                             name="description" rows="5" placeholder="Deskripsi jenis dokumen">{{ old('description') }}</textarea>
                             @error('description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-4">
+                            <label for="template" class="form-label">Template Dokumen</label>
+                            <input
+                              type="file"
+                              class="form-control @error('template') is-invalid @enderror"
+                              id="template"
+                              name="template"
+                              value="{{ old('template') }}"
+                              accept=".doc,.docx"
+                              placeholder="Masukan template dokumen"
+                            />
+                            @error('template')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

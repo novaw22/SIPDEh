@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('submissions', function (Blueprint $table) {
             $table->id();
             $table->string("admin_note")->nullable();
-            $table->date("pick_up_date")->nullable();
+            $table->datetime("pick_up_date")->nullable();
+            $table->boolean("is_softcopy")->default(false);
             $table->string("name");
             $table->string("file");
+            $table->string('soft_copy')->nullable();
             $table->text("description");
-            $table->enum("status", ["pending", "accepted", "rejected", "need_tobe_revised", "cancelled"]);
+            $table->enum("status", ["menunggu konfirmasi", "diterima", "ditolak", "butuh revisi", "dibatalkan"]);
             $table->bigInteger("jenis_document_id")->unsigned();
             $table->bigInteger("user_id")->unsigned();
 

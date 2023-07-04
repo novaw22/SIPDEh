@@ -24,6 +24,7 @@ class StoreJenisDocumentRequest extends FormRequest
         return [
             "name" => "required|max:255",
             "description" => "required|max:500",
+            "template" => "nullable|file|mimes:doc,docx"
         ];
     }
 }

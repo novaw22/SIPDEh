@@ -43,13 +43,17 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <label for="description" class="form-label">Deskripsi Jenis Dokumen</label>
                             <textarea disabled class="form-control @error('description') is-invalid @enderror" id="description"
                             name="description" rows="5" placeholder="Deskripsi jenis dokumen">{{ $document->description }}</textarea>
                             @error('description')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                        </div>
+                        <div class="mb-4">
+                            <label for="template" class="form-label">Template Dokumen</label>
+                            <a class="d-block" href="{{ route('assets.document.template', $document) }}" id="template" target="_blank">Lihat template dokumen</a>
                         </div>
                         <label for="description" class="form-label d-block">User yang dapat mengajukan</label>
                         @foreach ($documentUsers as $documentUser)

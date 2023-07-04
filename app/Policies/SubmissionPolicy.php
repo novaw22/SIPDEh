@@ -15,7 +15,7 @@ class SubmissionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->role === UserRoles::Admin->value;
     }
 
     /**
@@ -47,7 +47,7 @@ class SubmissionPolicy
      */
     public function delete(User $user, Submission $submission): bool
     {
-        return ($submission->user->id === $user->id) || ($user->role === UserRoles::Admin->value);
+        return (($submission->user->id === $user->id) || ($user->role === UserRoles::Admin->value)) && ($submission->status === SubmissionStatus::Pending->value || $submission->status === SubmissionStatus::Revised->value);
     }
 
     /**

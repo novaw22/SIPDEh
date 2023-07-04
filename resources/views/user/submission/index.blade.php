@@ -26,6 +26,25 @@
 </div>
 <div class="container-xxl flex-grow-1 container-p-y">
 	<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Home /</span> Pengajuan</h4>
+    <div class="row">
+        <div class="col-xxl">
+            @if (Session::has("success"))
+                <div class="alert alert-primary" role="alert">
+                    {{ Session::get('success') }}
+                </div>
+            @endif
+            @if (Session::has("warning"))
+                <div class="alert alert-warning" role="alert">
+                    {{ Session::get('warning') }}
+                </div>
+            @endif
+            @if (Session::has("error"))
+                <div class="alert alert-danger" role="alert">
+                    {{ Session::get('error') }}
+                </div>
+            @endif
+        </div>
+    </div>
 	<div class="row">
 		<!-- Basic Layout -->
 		<div class="col-xxl">
@@ -41,10 +60,9 @@
                         <table id="1" class="table" style="width: 100%;">
                         <thead class="table-light">
                         <tr>
-                            <th class="text-center" >No</th>
+                            <th class="text-center" >ID</th>
                             <th class="text-center" >Dokumen</th>
-                            <th class="text-center" >Note</th>
-                            <th class="text-center" >Tanggal Ambil</th>
+                            <th class="text-center" >Terakhir diupdate</th>
                             <th class="text-center" >Status</th>
                             <th class="text-center">Actions</th>
                         </tr>
@@ -52,51 +70,26 @@
                         <tbody class="table-border-bottom-0">
                             @forelse ($submissions as $submission)
                                 <tr>
-                                    <td class="text-center">{{ $loop->index + 1 }}</td>
+                                    <td class="text-center">#{{ $submission->id }}</td>
                                     <td class="text-center">{{ $submission->jenis_document->name }}</td>
                                     <td class="text-center">
-                                        @empty($submission->admin_note)
-                                        {{ "-" }}
-                                        @else
-                                        {{ \Illuminate\Support\Str::limit($submission->admin_note, 20, $end='...') }}
-                                        @endempty
+                                        {{ $submission->updated_at->diffForHumans() }}
                                     </td>
                                     <td class="text-center">
-                                        @empty($submission->pick_up_date)
-                                            {{ "-" }}
-                                        @else
-                                            {{ date('d-m-Y', strtotime($submission->pick_up_date)) }}
-                                        @endempty
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="rounded-3 px-2 py-1 text-white @if ($submission->status === "pending" || $submission->status === "need_tobe_revised") bg-warning @endif @if ($submission->status === "accepted") bg-success @endif @if ($submission->status === "rejected"||$submission->status === "cancelled") bg-danger @endif">
-                                            @if ($submission->status === "pending")
-                                                {{ "Diajukan" }}
-                                            @endif
-                                            @if ($submission->status === "accepted")
-                                                {{ "Disetujui" }}
-                                            @endif
-                                            @if ($submission->status === "need_tobe_revised")
-                                                {{ "Perlu Direvisi" }}
-                                            @endif
-                                            @if ($submission->status === "rejected")
-                                                {{ "Ditolak" }}
-                                            @endif
-                                            @if ($submission->status === "cancelled")
-                                                {{ "Dibatalkan" }}
-                                            @endif
+                                        <span class="rounded-3 px-2 py-1 text-white @if ($submission->status === \App\Enums\SubmissionStatuses::Pending->value || $submission->status === \App\Enums\SubmissionStatuses::Revised->value) bg-warning @endif @if ($submission->status === \App\Enums\SubmissionStatuses::Accepted->value) bg-success @endif @if ($submission->status === \App\Enums\SubmissionStatuses::Rejected->value || $submission->status === \App\Enums\SubmissionStatuses::Cancelled->value) bg-danger @endif">
+                                            {{ $submission->status }}
                                         </span>
                                     </td>
                                     <td class="d-flex justify-content-center align-items-center">
                                         <a class="btn btn-primary" href="{{ route("user.submission.detail", $submission) }}">Detail</a>
-                                        @if ($submission->status === "pending" || $submission->status === "rejected" || $submission->status === "need_tobe_revised")
+                                        @if ($submission->status === \App\Enums\SubmissionStatuses::Pending->value || $submission->status === \App\Enums\SubmissionStatuses::Rejected->value || $submission->status === \App\Enums\SubmissionStatuses::Revised->value)
                                             <a href="{{ route("user.submission.edit", $submission) }}" class="btn btn-warning ms-2">Edit</a>
                                         @endif
-                                        @if ($submission->status != "accepted" && $submission->status != "cancelled")
+                                        @if ($submission->status != \App\Enums\SubmissionStatuses::Accepted->value && $submission->status != \App\Enums\SubmissionStatuses::Cancelled->value)
                                             <form action="{{ route('user.submission.cancel', $submission) }}" method="POST">
                                                 @csrf
                                                 @method('PATCH')
-                                                <button class="btn btn-danger ms-2" type="submit">Batalkan</button>
+                                                <button class="btn btn-danger ms-2" type="submit">Batal</button>
                                             </form>
                                         @endif
                                     </td>
