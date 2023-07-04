@@ -18,7 +18,7 @@ class LocalCivilianFactory extends Factory
     {
         return [
             "fullname" => fake()->name(),
-            "nik" => fake()->isbn13(),
+            "nik" => fake()->isbn16(),
             "age" => fake()->numberBetween(10, 70),
             "date_of_birth" => fake()->dateTime(),
             "place_of_birth" => fake()->state(),
