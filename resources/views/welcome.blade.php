@@ -16,6 +16,7 @@
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
+    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/fonts/boxicons.css') }}" />
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('admin/assets/img/avatars/stamp.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('admin/assets/img/avatars/stamp.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('admin/assets/img/avatars/stamp.png') }}">
@@ -79,16 +80,72 @@
         <div class="container"><a class="navbar-brand" href="/"><img src="{{ asset('user/assets/img/logo.svg')}}" height="40" alt="logo" /></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"> </span></button>
           <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto align-items-center">
               <li class="nav-item"><a class="nav-link" aria-current="page" href="#home">Home</a></li>
               <li class="nav-item"><a class="nav-link" aria-current="page" href="#tentang">Tentang</a></li>
               <li class="nav-item"><a class="nav-link" aria-current="page" href="#fitur">Fitur</a></li>
               <li class="nav-item"><a class="nav-link" aria-current="page" href="#faq">FAQ</a></li>
               <li class="nav-item"><a class="nav-link" aria-current="page" href="#kontak">Kontak</a></li>
+              @auth
+                <li class="nav-item navbar-dropdown dropdown-user dropdown d-flex ms-3">
+                  <a class="nav-link" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <div class="avatar avatar-online">
+                      <img width="30" src="{{ asset('admin/assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle"/>
+                      <span class="ms-1">{{ Auth::user()->profile->fullname }}</span>
+                    </div>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <a class="dropdown-item" href="#">
+                      <div class="d-flex">
+                        <div class="flex-shrink-0 me-3">
+                          <div class="avatar avatar-online">
+                            <img width="30" src="{{ asset('admin/assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle"/>
+                          </div>
+                        </div>
+                        <div class="flex-grow-1">
+                          <small class="fw-semibold d-block">{{ Auth::user()->email }}</small>
+                          <small class="text-muted">{{ Auth::user()->profile->status }}</small>
+                        </div>
+                      </div>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="{{ route('user.profile') }}">
+                        <i class="bx bxs-user-circle me-2"></i>
+                        <small>Profile</small>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="{{ route('user.dashboard') }}">
+                        <i class="bx bx-list-ul me-2"></i>
+                        <small>Dashboard</small>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                      <form action="{{ route('auth.logout') }}" class="d-inline" method="POST">
+                        @csrf
+                        <button type="submit" class="dropdown-item d-inline">
+                          <i class="bx bx-power-off me-2"></i>
+                          <span class="align-middle">
+                            <small>Log Out</small>
+                          </span>
+                        </button>
+                      </form>
+                    </li>
+                  </ul>
+                </li>
+              @endauth
             </ul>
-            <div class="d-flex ms-lg-4">
-              <a class="btn btn-secondary-outline" href="/login">Masuk</a>
-              <a class="btn btn-warning ms-3" href="/register">Register</a></div>
+            @guest
+              <div class="d-flex ms-lg-4">
+                <a class="btn btn-secondary-outline" href="{{ route('auth.login') }}">Masuk</a>
+                <a class="btn btn-warning ms-3" href="{{ route('auth.register') }}">Register</a>
+              </div>
+            @endguest
           </div>
         </div>
       </nav>

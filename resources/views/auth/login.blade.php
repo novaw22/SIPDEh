@@ -71,6 +71,16 @@
     <div class="container-xxl">
       <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner">
+          @if (Session::has("success"))
+              <div class="alert alert-primary" role="alert">
+                  {{ Session::get('success') }}
+              </div>
+          @endif
+          @if (Session::has("error"))
+              <div class="alert alert-danger" role="alert">
+                  {{ Session::get('error') }}
+              </div>
+          @endif
           <!-- Register -->
           <div class="card">
             <div class="card-body">
@@ -88,19 +98,20 @@
                         <b>Opps!</b> {{session('error')}}
                     </div>
                 @endif
-              <form action="#" method="post">
+              <form action="{{ route('auth.authenticate') }}" method="post">
                 @csrf
                 <div class="mb-3">
-                  <label for="username" class="form-label">Email</label>
+                  <label for="email" class="form-label">Email</label>
                   <input
-                    type="username"
-                    class="form-control @error('name') is-invalid @enderror"
-                    id="name"
-                    name="name"
+                    type="email"
+                    class="form-control @error('email') is-invalid @enderror"
+                    id="email"
+                    name="email"
+                    value="{{ old("email") }}"
                     placeholder="Masukkan email Anda"
                     autofocus
                   />
-                  @error('name')
+                  @error('email')
                     <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
                 </div>
@@ -124,7 +135,7 @@
                   </div>
                   <div class="mt-2">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="remember-me" />
+                      <input class="form-check-input" type="checkbox" id="remember-me" name="remember" />
                       <label class="form-check-label" for="remember-me"> Remember Me </label>
                     </div>
                   </div>
@@ -136,7 +147,7 @@
 
               <p class="text-center">
                 <span>Belum memiliki akun?</span>
-                <a href="auth-register-basic.html">
+                <a href="{{ route('auth.register') }}">
                   <span>Register Sekarang!</span>
                 </a>
               </p>
