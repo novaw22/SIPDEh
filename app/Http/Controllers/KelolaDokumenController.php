@@ -25,7 +25,7 @@ class KelolaDokumenController extends Controller
 
     public function getData(Request $request)
     {
-        
+
         $data = DB::table('pengajuans')->whereNull('deleted_at')->get();
 
         $datatables = DataTables::of($data);
@@ -45,7 +45,6 @@ class KelolaDokumenController extends Controller
         ->addColumn('action', function($data){
             $actionBtn = "
             <a href='/admin/kelola-dokumen/{$data->id}/edit' class='btn btn-icon btn-primary' title='edit data'><span class='tf-icons bx bx-edit-alt'></span></a>
-            <a href='javascript:void(0)' onclick='deleteData(\"{$data->id}\")' data-id='{$data->id}' class='btn btn-icon btn-danger' title='hapus data'><span class='tf-icons bx bx-trash'></span></a>
             ";
             return $actionBtn;
         })
@@ -66,10 +65,12 @@ class KelolaDokumenController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the input
+        dd($request->id);// Validate the input
         $validator = Validator::make($request->all(), [
-            'nik' => 'required|max:16',
-            'nama' => 'required|max:50',
+            'nama_pengaju' => 'required',
+            'dokumen' => 'required',
+            'status' => 'required',
+            'alasan' => 'required'
         ]);
 
         // If validation fails, return the error response
@@ -81,11 +82,11 @@ class KelolaDokumenController extends Controller
             ], 422);
         }
 
-        $data = Penduduk::updateOrCreate(
+        $data = Pengajuan::updateOrCreate(
             ['id' => $request->data_id],
-            ['nik' => $request->nik, 'nama' => $request->nama]
-        );        
-   
+            ['nama_pengaju' => $request->nama_pengaju, 'dokumen' => $request->dokumen, 'status' => $request->status, 'alasan' => $request->alasan]
+        );
+
         if($data){
             $response = array('success'=>1,'msg'=>'Data berhasl disimpan');
         }else{
@@ -97,7 +98,7 @@ class KelolaDokumenController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Penduduk $penduduk)
+    public function show(Pengajuan $pengajuan)
     {
         //
     }
@@ -107,7 +108,7 @@ class KelolaDokumenController extends Controller
      */
     public function edit($id)
     {
-        
+
         return view('admin.kelola_dokumen.detail', [
             "data" => Pengajuan::find($id),
             "title" => "Kelola Dokumen",
@@ -117,9 +118,24 @@ class KelolaDokumenController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Penduduk $penduduk)
+    public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nama_pengaju' => 'required',
+            'dokumen' => 'required',
+            'status' => 'required',
+            'alasan' => 'required'
+        ]);
+
+        $data = Pengajuan::find($id);
+        $data->status = $request->status;
+        $data->update();
+
+        if($data){
+            return redirect('/admin/kelola-dokumen');
+        }else{
+            return redirect('/admin/kelola-dokumen');
+        }
     }
 
     /**
@@ -127,7 +143,7 @@ class KelolaDokumenController extends Controller
      */
     public function destroy($id)
     {
-        $data = Penduduk::find($id); 
+        $data = Pengajuan::find($id);
         $data->deleted_at = date('Y-m-d H:i:s');
         //$data->updated_by = auth()->user()->id;
         if($data->save()){

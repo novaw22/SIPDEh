@@ -25,11 +25,12 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
-                                        <form action="/user/kelola-dokumen/create">
-                                            <div class="d-grid gap-2 col-lg-8 mx-auto">
-                                                <input type="text" name="jenis_dokumen" id="jenis_dokumen" value="Surat Keramaian" hidden>
-                                                <button class="btn btn-outline-primary" type="submit">Surat Keramaian</button>
-                                            </div>
+                                        <form action="">
+                                            @foreach ($types as $type)
+                                                <div class="d-grid gap-2 col-lg-8 mx-auto">
+                                                    <a href="{{ route('user.documents.create', ["jenis_dokumen" => $type->id ]) }}" class="btn btn-outline-primary">{{ $type->name }}</a>
+                                                </div>
+                                            @endforeach
                                         </form>
                                     </div>
                                 </div>
@@ -66,7 +67,7 @@
 var table;
 $(document).ready(function() {
     table = $('#{{$table_id}}').DataTable({
-        
+
         "language": {
             "lengthMenu": "_MENU_",
             /* 'loadingRecords': '&nbsp;',
@@ -77,13 +78,13 @@ $(document).ready(function() {
         ordering: true,
         serverSide: true,
         ajax: {
-            url: '{{url("admin/ajaxKelola-dokumen")}}',
+            url: '{{url("user/ajaxKelola-dokumen")}}',
             type:"POST",
             data: function(params) {
                 params._token = "{{ csrf_token() }}";
             }
         },
-        
+
         language: {
             search: "",
             searchPlaceholder: "Type in to Search",
@@ -100,7 +101,7 @@ $(document).ready(function() {
             }
         },
         columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, class: 'text-left' },    
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, class: 'text-left' },
             {
                 data: 'nama_pengaju',
                 name: 'nama_pengaju',
@@ -138,12 +139,12 @@ $(document).ready(function() {
             }
         ]
     });
-    
+
     $("#{{$table_id}}").DataTable().processing(true);
     $('#{{$table_id}}_filter input').unbind();
     $('#{{$table_id}}_filter input').bind('keyup', function(e) {
         if(e.keyCode == 13) {
-            table.search(this.value).draw();   
+            table.search(this.value).draw();
         }
     });
     $('.dataTables_filter').html('<div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><i class="bi bi-search"></i></span><input type="search" class="form-control form-control-sm" placeholder="Type in to Search" aria-label="Type in to Search" aria-describedby="addon-wrapping"></div>');

@@ -8,7 +8,7 @@
 				<div class="card-header d-flex align-items-center justify-content-between">
 					<h5 class="mb-0">List {{$title}}</h5>
 					<a href="javascript:void(0)" id="addNewData" class="btn btn-primary">
-					    <span class="tf-icons bx bx-plus"></span>&nbsp; Tambah Data 
+					    <span class="tf-icons bx bx-plus"></span>&nbsp; Tambah Data
                     </a>
 				</div>
 				<div class="card-body">
@@ -49,16 +49,9 @@
                     <input type="hidden" name="data_id" id="data_id">
                     <div class="row">
                         <div class="col mb-3">
-                          <label for="nameBackdrop" class="form-label">NIK</label>
-                          <input type="text" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK Anda" value="" maxlength="16" required="">
-                          <span class="invalid-feedback" id="nik_error"></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col mb-3">
-                          <label for="nameBackdrop" class="form-label">nama</label>
-                          <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Anda" value="" maxlength="50" required="">
-                          <span class="invalid-feedback" id="nama_error"></span>
+                          <label for="nameBackdrop" class="form-label">jenis dokumen</label>
+                          <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Jenis Dokumen" value="" maxlength="50" required="">
+                          <span class="invalid-feedback" id="name_error"></span>
                         </div>
                     </div>
                 </div>
@@ -80,7 +73,7 @@
     var table;
     $(document).ready(function() {
         table = $('#{{$table_id}}').DataTable({
-            
+
             "language": {
                 "lengthMenu": "_MENU_",
                 /* 'loadingRecords': '&nbsp;',
@@ -97,7 +90,7 @@
                     params._token = "{{ csrf_token() }}";
                 }
             },
-            
+
             language: {
                 search: "",
                 searchPlaceholder: "Type in to Search",
@@ -116,8 +109,8 @@
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, class: 'text-left' },
                 {
-                    data: 'nama',
-                    name: 'nama',
+                    data: 'name',
+                    name: 'name',
                     orderable: false,
                     searchable: true,
                     class: 'text-center'
@@ -131,48 +124,47 @@
                 }
             ]
         });
-        
+
         $("#{{$table_id}}").DataTable().processing(true);
         $('#{{$table_id}}_filter input').unbind();
         $('#{{$table_id}}_filter input').bind('keyup', function(e) {
             if(e.keyCode == 13) {
-                table.search(this.value).draw();   
+                table.search(this.value).draw();
             }
         });
         $('.dataTables_filter').html('<div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><i class="bi bi-search"></i></span><input type="search" class="form-control form-control-sm" placeholder="Type in to Search" aria-label="Type in to Search" aria-describedby="addon-wrapping"></div>');
     });
 
     $('#addNewData').click(function () {
-            $('#saveBtn').val("create-penduduk");
+            $('#saveBtn').val("create-jenis-dokumen");
             $('#data_id').val('');
             $('#modalForm').trigger("reset");
-            $('#modelHeading').html("Tambah Data Penduduk");
+            $('#modelHeading').html("Tambah Jenis Dokumen");
             $('#ajaxModel').modal('show');
     });
-    
+
     $('body').on('click', '.editData', function () {
         var data_id = $(this).data('id');
-        $.get("{{url('/admin/penduduk')}}" +'/' + data_id +'/edit', function (data) {
-            $('#modelHeading').html("Edit Data Penduduk");
-            $('#saveBtn').val("edit-penduduk");
+        $.get("{{url('/admin/jenis-dokumen')}}" +'/' + data_id +'/edit', function (data) {
+            $('#modelHeading').html("Edit Jenis Dokumen");
+            $('#saveBtn').val("edit-jenis-dokumen");
             $('#ajaxModel').modal('show');
             $('#data_id').val(data.id);
-            $('#nik').val(data.nik);
-            $('#nama').val(data.nama);
+            $('#name').val(data.name);
         })
     });
-    
+
     $('#saveBtn').click(function (e) {
         e.preventDefault();
         $(this).html('Sending..');
 
         // Remove the error handling for the "NIK" and "Nama" fields
-        $('#nik, #nama').removeClass('is-invalid');
-        $('#nik-error, #nama-error').remove();
+        $('#name').removeClass('is-invalid');
+        $('#name-error').remove();
 
         $.ajax({
             data: $('#modalForm').serialize(),
-            url:"{{url('/admin/penduduk')}}",
+            url:"{{url('/admin/jenis-dokumen')}}",
             type: "POST",
             dataType: 'json',
             success: function (data) {
@@ -216,7 +208,7 @@
     function deleteData(id){
         Swal.fire({
             icon:'warning',
-            text: 'Hapus Data Penduduk?',
+            text: 'Hapus Jenis Dokumen?',
             showCancelButton: true,
             confirmButtonText: 'Hapus',
             cancelButtonText: 'Batal',
@@ -224,7 +216,7 @@
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 $.ajax({
-                    url:"{{url('/admin/penduduk')}}/"+id,
+                    url:"{{url('/admin/jenis-dokumen')}}/"+id,
                     data:{
                         _method:"DELETE",
                         _token:"{{csrf_token()}}"

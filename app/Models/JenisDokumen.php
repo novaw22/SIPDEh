@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class JenisDokumen extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $fillable = [
+        'name'
+    ];
 
     public function pengajuans() {
         return $this->hasMany(Pengajuan::class);

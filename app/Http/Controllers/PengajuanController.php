@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use App\Models\JenisDokumen;
 
 class PengajuanController extends Controller
 {
@@ -17,17 +18,19 @@ class PengajuanController extends Controller
      */
     public function index()
     {
+        $documentTypes = JenisDokumen::all();
         return view('user.kelola_dokumen.index', [
             "title" => "Kelola Dokumen",
             // "posts" => Post::all()
             "active" => "Pengajuan",
-            "table_id" => "kelola_dokumen_id"
+            "table_id" => "kelola_dokumen_id",
+            "types" => $documentTypes
         ]);
     }
 
     public function getData(Request $request)
     {
-        
+
         $data = DB::table('pengajuans')->whereNull('deleted_at')->get();
 
         $datatables = DataTables::of($data);
@@ -60,9 +63,14 @@ class PengajuanController extends Controller
      */
     public function create(Request $request)
     {
-        $jenis_dokumen = $request->jenis_dokumen;
+        $jenis_dokumen_id = $request->jenis_dokumen;
+        
+        $jenis_dokumen = JenisDokumen::findOrFail($jenis_dokumen_id);
+
+        $syarats = $jenis_dokumen->syarats;
         return view('user.kelola_dokumen.add',[
-            'jenis_dokumen' => $jenis_dokumen
+            'jenis_dokumen' => $jenis_dokumen,
+            'syarats' => $syarats
         ]);
     }
 
@@ -73,8 +81,10 @@ class PengajuanController extends Controller
     {
         // Validate the input
         $validator = Validator::make($request->all(), [
-            'nik' => 'required|max:16',
-            'nama' => 'required|max:50',
+            'nama_pengaju' => 'required',
+            'dokumen' => 'required',
+            'status' => 'required',
+            'alasan' => 'required'
         ]);
 
         // If validation fails, return the error response
@@ -86,11 +96,11 @@ class PengajuanController extends Controller
             ], 422);
         }
 
-        $data = Penduduk::updateOrCreate(
+        $data = Pengajuan::updateOrCreate(
             ['id' => $request->data_id],
-            ['nik' => $request->nik, 'nama' => $request->nama]
-        );        
-   
+            ['nama_pengaju' => $request->nama_pengaju, 'dokumen' => $request->dokumen, 'status' => $request->status, 'alasan' => $request->alasan]
+        );
+
         if($data){
             $response = array('success'=>1,'msg'=>'Data berhasl disimpan');
         }else{
@@ -102,7 +112,7 @@ class PengajuanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Penduduk $penduduk)
+    public function show(Pengajuan $pengajuan)
     {
         //
     }
@@ -112,7 +122,7 @@ class PengajuanController extends Controller
      */
     public function edit($id)
     {
-        
+
         return view('admin.kelola_dokumen.detail', [
             "data" => Pengajuan::find($id),
             "title" => "Kelola Dokumen",
@@ -122,7 +132,7 @@ class PengajuanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Penduduk $penduduk)
+    public function update(Request $request, Pengajuan $pengajuan)
     {
         //
     }
@@ -132,7 +142,7 @@ class PengajuanController extends Controller
      */
     public function destroy($id)
     {
-        $data = Penduduk::find($id); 
+        $data = Pengajuan::find($id);
         $data->deleted_at = date('Y-m-d H:i:s');
         //$data->updated_by = auth()->user()->id;
         if($data->save()){

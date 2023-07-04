@@ -1,4 +1,4 @@
-@extends('admin.layouts_dashboard.app') 
+@extends('admin.layouts_dashboard.app')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
 	<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Master/</span> Museum</h4>
@@ -14,11 +14,12 @@
 				<hr class="my-0"/>
 				<div class="card-body">
 					<form action="/user/kelola-dokumen" method="post" enctype="multipart/form-data">
+                        @method('put')
 						 @csrf
 						<div class="row mb-3">
 							<label class="form-label" for="basic-default-name">Nama Pengaju</label>
 							<div class="form-group">
-								<input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Masukkan nama museum"/>
+								<input type="text" class="form-control @error('name') is-invalid @enderror" id="nama_pengaju" name="nama_pengaju" placeholder="Masukkan nama museum"/>
 								@error('name')
 								<div class="invalid-feedback">{{ $message }}</div>
 								 @enderror
@@ -27,7 +28,7 @@
 						<div class="row mb-3">
 							<div>
 								<label for="exampleFormControlSelect1" class="form-label">Dokumen</label>
-								<select class="form-select" id="jenis" name="jenis" aria-label="Default select example">
+								<select class="form-select" id="dokumen" name="dokumen" aria-label="Default select example">
 								  <option selected>Pilih jenis museum</option>
 								  	@foreach($jenis as $jenism)
                                         <option value="{{$jenism->id}}">{{$jenism->jenis}}</option>
@@ -38,7 +39,7 @@
 						<div class="row mb-3">
 							<label class="form-label" for="basic-default-name">Status</label>
 							<div class="form-group">
-								<input type="text" class="form-control @error('telepon') is-invalid @enderror" id="telepon" name="telepon" placeholder="089xxxxxxxxx"/>
+								<input type="text" class="form-control @error('telepon') is-invalid @enderror" id="status" name="status" placeholder="089xxxxxxxxx"/>
 								@error('telepon')
 								<div class="invalid-feedback">{{ $message }}</div>
 								 @enderror
@@ -47,7 +48,7 @@
 						<div class="row mb-3">
 							<label class="form-label" for="basic-default-message">Alasan</label>
 							<div class="form-group">
-								<textarea id="desc" name="desc" class="form-control @error('desc') is-invalid @enderror" placeholder="Masukkan deskripsi museum" aria-label="Hi, Do you have a moment to talk Joe?" aria-describedby="basic-icon-default-message2"></textarea>
+								<textarea id="alasan" name="alasan" class="form-control @error('desc') is-invalid @enderror" placeholder="Masukkan deskripsi museum" aria-label="Hi, Do you have a moment to talk Joe?" aria-describedby="basic-icon-default-message2"></textarea>
 								@error('desc')
 								<div class="invalid-feedback">{{ $message }}</div>
 								 @enderror
@@ -56,7 +57,7 @@
 						<div class="row justify-content-end">
 							<div class="col">
 								<button type="submit" class="btn btn-primary">Save</button>
-								<a href="/admin/museum" class="btn btn-outline-secondary">Cancel</a>
+								<a href="/admin/kelola-dokumen" class="btn btn-outline-secondary">Cancel</a>
 							</div>
 						</div>
 					</form>

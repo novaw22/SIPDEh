@@ -1,4 +1,4 @@
-@extends('admin.layouts_dashboard.app') 
+@extends('admin.layouts_dashboard.app')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
 	<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Master/</span> Museum</h4>
@@ -18,9 +18,9 @@
 						 <div class="row mb-3">
 							 <label class="form-label" for="basic-default-name">Dokumen</label>
 							 <div class="form-group">
-								 <input type="text" class="form-control @error('telepon') is-invalid @enderror" id="jenis_dokumen" name="jenis_dokumen" value="{{$jenis_dokumen}}" disabled/>
-								 @error('telepon')
-								 <div class="invalid-feedback">{{ $message }}</div>
+								 <input type="text" class="form-control @error('telepon') is-invalid @enderror" id="jenis_dokumen" name="jenis_dokumen_id" value="{{$jenis_dokumen->name}}" disabled/>
+								 @error('jenis_dokumen_id')
+								 	<div class="invalid-feedback">{{ $message }}</div>
 								  @enderror
 							 </div>
 						 </div>
@@ -29,16 +29,16 @@
 							<div class="form-group">
 								<input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Masukkan nama museum"/>
 								@error('name')
-								<div class="invalid-feedback">{{ $message }}</div>
+									<div class="invalid-feedback">{{ $message }}</div>
 								 @enderror
 							</div>
 						</div>
 						<div class="row mb-3">
-							<label class="form-label" for="basic-default-name">Status</label>
+							<label class="form-label" for="basic-default-name">No. Telp</label>
 							<div class="form-group">
 								<input type="text" class="form-control @error('telepon') is-invalid @enderror" id="telepon" name="telepon" placeholder="089xxxxxxxxx"/>
 								@error('telepon')
-								<div class="invalid-feedback">{{ $message }}</div>
+									<div class="invalid-feedback">{{ $message }}</div>
 								 @enderror
 							</div>
 						</div>
@@ -47,16 +47,30 @@
 							<div class="form-group">
 								<textarea id="desc" name="desc" class="form-control @error('desc') is-invalid @enderror" placeholder="Masukkan deskripsi museum" aria-label="Hi, Do you have a moment to talk Joe?" aria-describedby="basic-icon-default-message2"></textarea>
 								@error('desc')
-								<div class="invalid-feedback">{{ $message }}</div>
+									<div class="invalid-feedback">{{ $message }}</div>
 								 @enderror
 							</div>
 						</div>
+						@forelse ($syarats as $syarat)
+							<div class="row mb-3">
+								<label class="form-label" for="basic-default-message">{{ $syarat->nama_syarat }}</label>
+								<div class="form-group">
+									<input accept="{{ $syarat->tipe === "gambar" ? "image" : "file"}}/{{ $syarat->tipe === "gambar" ? ".png,.jpg,.jpeg" : ".pdf"}}" type="{{ $syarat->tipe === "gambar" || $syarat->tipe === "pdf" ? "file" : "text" }}" class="form-control @error($syarat->id) is-invalid @enderror" id="telepon" name="{{ $syarat->id }}" placeholder="{{ $syarat->nama_syarat }}"/>
+									@error($syarat->id)
+										<div class="invalid-feedback">{{ $message }}</div>
+									@enderror
+								</div>
+							</div>
+						@empty
+							
+						@endforelse
 						<div class="row justify-content-end">
 							<div class="col">
 								<button type="submit" class="btn btn-primary">Save</button>
-								<a href="/admin/museum" class="btn btn-outline-secondary">Cancel</a>
+								<a href="/admin/kelola-dokumen" class="btn btn-outline-secondary">Cancel</a>
 							</div>
 						</div>
+
 					</form>
 				</div>
 			</div>

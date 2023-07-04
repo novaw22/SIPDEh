@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSyaratPengajuanRequest;
 use App\Http\Requests\UpdateSyaratPengajuanRequest;
+use App\Models\JenisDokumen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\SyaratPengajuan;
 use Yajra\DataTables\DataTables;
 use DB;
+use Illuminate\Validation\Rule;
 
 class SyaratPengajuanController extends Controller
 {
@@ -17,31 +19,41 @@ class SyaratPengajuanController extends Controller
      */
     public function index()
     {
+        $jenis_dokumens = JenisDokumen::all();
         return view('admin.syarat_pengajuan.index', [
             "title" => "Syarat Pengajuan",
             // "posts" => Post::all()
             "active" => "Master",
-            "table_id" => "syarat_pengajuan_id"
+            "table_id" => "syarat_pengajuan_id",
+            "jenis_dokumens" => $jenis_dokumens,
+            "jenis_dokumen_id" => null
         ]);
     }
 
     public function getData(Request $request)
     {
-        
-        $data = DB::table('syarat_pengajuans')->whereNull('deleted_at')->get();
+
+        $data = DB::table('syarat_pengajuans')
+        ->join('jenis_dokumens', 'syarat_pengajuans.jenis_dokumen_id', '=', 'jenis_dokumens.id')
+        ->whereNull('syarat_pengajuans.deleted_at')
+        ->select('syarat_pengajuans.*', 'jenis_dokumens.name as jenis_dokumen')
+        ->get();
 
         $datatables = DataTables::of($data);
 		return $datatables
-        ->addIndexColumn()
-        ->addColumn('action', function($data){
-            $actionBtn = "
-            <a href='javascript:void(0)' data-id='{$data->id}'  class='btn btn-icon btn-primary editData' title='edit data'><span class='tf-icons bx bx-edit-alt'></span></a>
-            <a href='javascript:void(0)' onclick='deleteData(\"{$data->id}\")' data-id='{$data->id}' class='btn btn-icon btn-danger' title='hapus data'><span class='tf-icons bx bx-trash'></span></a>
-            ";
-            return $actionBtn;
+            ->addIndexColumn()
+            ->addColumn('jenis_dokumen', function ($data) {
+                return $data->jenis_dokumen;
         })
-        ->rawColumns(['action'])
-        ->make(true);
+            ->addColumn('action', function($data){
+                $actionBtn = "
+                <a href='javascript:void(0)' data-id='{$data->id}'  class='btn btn-icon btn-primary editData' title='edit data'><span class='tf-icons bx bx-edit-alt'></span></a>
+                <a href='javascript:void(0)' onclick='deleteData(\"{$data->id}\")' data-id='{$data->id}' class='btn btn-icon btn-danger' title='hapus data'><span class='tf-icons bx bx-trash'></span></a>
+                ";
+                return $actionBtn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     /**
@@ -59,8 +71,10 @@ class SyaratPengajuanController extends Controller
     {
         // Validate the input
         $validator = Validator::make($request->all(), [
-            'nik' => 'required|max:16',
-            'nama' => 'required|max:50',
+            'jenis_dokumen' => 'required',
+            'nama_syarat' => 'required|max:50',
+            'tipe' => 'required',
+            'wajib' => 'required'
         ]);
 
         // If validation fails, return the error response
@@ -72,11 +86,11 @@ class SyaratPengajuanController extends Controller
             ], 422);
         }
 
-        $data = Penduduk::updateOrCreate(
+        $data = SyaratPengajuan::updateOrCreate(
             ['id' => $request->data_id],
-            ['nik' => $request->nik, 'nama' => $request->nama]
-        );        
-   
+            ['jenis_dokumen_id' => $request->jenis_dokumen, 'nama_syarat' => $request->nama_syarat, 'tipe' => $request->tipe, 'wajib' => $request->wajib]
+        );
+
         if($data){
             $response = array('success'=>1,'msg'=>'Data berhasl disimpan');
         }else{
@@ -88,7 +102,7 @@ class SyaratPengajuanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Penduduk $penduduk)
+    public function show(SyaratPengajuan $syaratPengajuan)
     {
         //
     }
@@ -98,14 +112,14 @@ class SyaratPengajuanController extends Controller
      */
     public function edit($id)
     {
-        $penduduk = Penduduk::find($id);
-        return response()->json($penduduk);
+        $syaratPengajuan = SyaratPengajuan::find($id);
+        return response()->json($syaratPengajuan);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Penduduk $penduduk)
+    public function update(Request $request, SyaratPengajuan $syaratPengajuan)
     {
         //
     }
@@ -115,7 +129,7 @@ class SyaratPengajuanController extends Controller
      */
     public function destroy($id)
     {
-        $data = Penduduk::find($id); 
+        $data = SyaratPengajuan::find($id);
         $data->deleted_at = date('Y-m-d H:i:s');
         //$data->updated_by = auth()->user()->id;
         if($data->save()){
