@@ -40,9 +40,8 @@ class AuthController extends Controller
             }
             Profile::create($data);
             DB::commit();
-            return redirect()->route('auth.login')->with("success", "registrasi berhasil !");
+            return redirect()->route('auth.login')->with("success", "registrasi berhasil, silahkan login");
         }catch (\Throwable $th) {
-            dd($th);
             DB::rollback();
             return back()->with("error", "registrasi gagal karena terjadi kesalahan !");
         }

@@ -71,6 +71,16 @@
     <div class="container-xxl">
       <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner">
+          @if (Session::has("success"))
+              <div class="alert alert-primary" role="alert">
+                  {{ Session::get('success') }}
+              </div>
+          @endif
+          @if (Session::has("error"))
+              <div class="alert alert-danger" role="alert">
+                  {{ Session::get('error') }}
+              </div>
+          @endif
           <!-- Register -->
           <div class="card">
             <div class="card-body">

@@ -34,6 +34,8 @@ Route::name("auth.")->group(function () {
 
 Route::middleware(["auth", "user"])->name("user.")->group(function () {
     Route::get("/dashboard", [DashboardController::class, "dashboard"])->name("dashboard");
+    Route::get("/profile", [DashboardController::class, "profile"])->name("profile");
+    Route::patch('/{user}/profile/save', [DashboardController::class, 'profileSave'])->name("profile.save");
 });
 
 Route::prefix("/admin")->middleware(["auth", "admin"])->name("admin.")->group(function () {

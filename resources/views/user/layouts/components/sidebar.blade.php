@@ -7,14 +7,14 @@
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-1 mt-3">
         <!-- Dashboard -->
-        <li class="menu-item active {{ (request()->is('user/dashboard*')) ? 'active' : '' }}">
-            <a href="/user/dashboard" class="menu-link">
+        <li class="menu-item {{ (request()->is('dashboard*')) ? 'active' : '' }}">
+            <a href="{{ route('user.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
             </a>
         </li>
-        <li class="menu-item {{ (request()->is('user/dashboard*')) ? 'active' : '' }}">
-            <a href="/user/dashboard" class="menu-link">
+        <li class="menu-item {{ (request()->is('profile*')) ? 'active' : '' }}">
+            <a href="{{ route('user.profile') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div data-i18n="Analytics">Profile</div>
             </a>
@@ -23,6 +23,12 @@
             <a href="/user/kelola-dokumen" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-folder"></i>
                 <div data-i18n="Basic">Pengajuan Dokumen</div>
+            </a>
+        </li>
+        <li class="menu-item {{ (request()->is('user/kelola-dokumen*')) ? 'active' : '' }}">
+            <a href="/user/kelola-dokumen" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-book-open"></i>
+                <div data-i18n="Basic">Dokumentasi</div>
             </a>
         </li>
     </ul>

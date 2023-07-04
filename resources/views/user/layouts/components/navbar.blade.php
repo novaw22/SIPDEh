@@ -23,28 +23,45 @@
 			</a>
 			<ul class="dropdown-menu dropdown-menu-end">
 				<li>
-					<a class="dropdown-item" href="#">
-					<div class="d-flex">
-						<div class="flex-shrink-0 me-3">
-							<div class="avatar avatar-online">
-								<img src="{{ asset('admin/assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle"/>
-							</div>
-						</div>
-						<div class="flex-grow-1">
-							<span class="fw-semibold d-block">{{ Auth::user()->email }}</span>
-							<small class="text-muted">{{ Auth::user()->status }}</small>
-						</div>
+				  <a class="dropdown-item" href="#">
+				  <div class="d-flex">
+					<div class="flex-shrink-0 me-3">
+					  <div class="avatar avatar-online">
+						<img width="30" src="{{ asset('admin/assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle"/>
+					  </div>
 					</div>
-					</a>
+					<div class="flex-grow-1">
+					  <small class="fw-semibold d-block">{{ Auth::user()->email }}</small>
+					  <small class="text-muted">{{ Auth::user()->profile->status }}</small>
+					</div>
+				  </div>
+				  </a>
 				</li>
 				<li>
-					<div class="dropdown-divider"></div>
+				  <a class="dropdown-item" href="{{ route('user.profile') }}">
+					<i class="bx bxs-user-circle me-2"></i>
+					<small>Profile</small>
+				  </a>
 				</li>
 				<li>
-					<a class="dropdown-item" href="">
-					<i class="bx bx-power-off me-2"></i>
-					<span class="align-middle">Log Out</span>
-					</a>
+				  <a class="dropdown-item" href="{{ route('user.dashboard') }}">
+					<i class="bx bx-list-ul me-2"></i>
+					<small>Dashboard</small>
+				  </a>
+				</li>
+				<li>
+				  <div class="dropdown-divider"></div>
+				</li>
+				<li>
+				  <form action="{{ route('auth.logout') }}" class="d-inline" method="POST">
+					@csrf
+					<button type="submit" class="dropdown-item d-inline">
+					  <i class="bx bx-power-off me-2"></i>
+					  <span class="align-middle">
+						<small>Log Out</small>
+					  </span>
+					</button>
+				  </form>
 				</li>
 			</ul>
 		</li>
