@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('submissions', function (Blueprint $table) {
             $table->id();
             $table->string("admin_note")->nullable();
-            $table->date("pick_up_date")->nullable();
+            $table->datetime("pick_up_date")->nullable();
+            $table->boolean("is_softcopy")->default(false);
             $table->string("name");
             $table->string("file");
             $table->string('soft_copy')->nullable();

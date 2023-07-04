@@ -25,6 +25,12 @@
                 <div data-i18n="Basic">Pengajuan Dokumen</div>
             </a>
         </li>
+        <li class="menu-item {{ (request()->is('user/kelola-dokumen*')) ? 'active' : '' }}">
+            <a href="/user/kelola-dokumen" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-book-open"></i>
+                <div data-i18n="Basic">Dokumentasi</div>
+            </a>
+        </li>
     </ul>
 </aside>
 <!-- / Menu -->

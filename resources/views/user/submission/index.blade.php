@@ -26,6 +26,25 @@
 </div>
 <div class="container-xxl flex-grow-1 container-p-y">
 	<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Home /</span> Pengajuan</h4>
+    <div class="row">
+        <div class="col-xxl">
+            @if (Session::has("success"))
+                <div class="alert alert-primary" role="alert">
+                    {{ Session::get('success') }}
+                </div>
+            @endif
+            @if (Session::has("warning"))
+                <div class="alert alert-warning" role="alert">
+                    {{ Session::get('warning') }}
+                </div>
+            @endif
+            @if (Session::has("error"))
+                <div class="alert alert-danger" role="alert">
+                    {{ Session::get('error') }}
+                </div>
+            @endif
+        </div>
+    </div>
 	<div class="row">
 		<!-- Basic Layout -->
 		<div class="col-xxl">

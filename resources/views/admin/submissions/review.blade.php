@@ -43,19 +43,21 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mb-3">
-                            <label for="pick_up_date" class="form-label">Tanggal Ambil</label>
-                            <input
-                              type="date"
-                              class="form-control"
-                              id="pick_up_date"
-                              name="pick_up_date"
-                              value="{{ old('pick_up_date',$submission->pick_up_date )}}"
-                            />
-                            @error('pick_up_date')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror     
-                        </div>
+                        @if (!$submission->is_softcopy)
+                            <div class="mb-3">
+                                <label for="pick_up_date" class="form-label">Tanggal Ambil</label>
+                                <input
+                                type="datetime-local"
+                                class="form-control"
+                                id="pick_up_date"
+                                name="pick_up_date"
+                                value="{{ old('pick_up_date',$submission->pick_up_date )}}"
+                                />
+                                @error('pick_up_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        @endif
                         <div class="mb-3">
                             <label for="description" class="form-label">Catatan dari Kaling</label>
                             <textarea name="admin_note" placeholder="Catatan dari admin mengenai pengajuan" class="form-control" id="description"rows="5">{{ old('admin_note',$submission->admin_note) }}</textarea>
@@ -76,7 +78,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
                         <h2 class="form-label fw-bold text-primary">*Pengajuan</h2>
                         <hr>
                         <div class="mb-3">

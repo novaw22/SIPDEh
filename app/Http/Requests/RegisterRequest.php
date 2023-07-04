@@ -22,7 +22,7 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "nik" => "required|regex:/^[0-9]+$/|unique:profiles,nik",
+            "nik" => "required|regex:/^[0-9]+$/|unique:profiles,nik|digits:16",
             "email" => "required|email:rfc,dns",
             "fullname" => "required|max:255",
             "phone" => "required|min:12|max:12|regex:/^[0-9]+$/",

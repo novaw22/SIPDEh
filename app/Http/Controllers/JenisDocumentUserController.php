@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreDetailPengajuanRequest;
-use App\Http\Requests\UpdateDetailPengajuanRequest;
-use App\Models\DetailPengajuan;
+use App\Models\JenisDocumentUser;
+use App\Http\Requests\StoreJenisDocumentUserRequest;
+use App\Http\Requests\UpdateJenisDocumentUserRequest;
 
-class DetailPengajuanController extends Controller
+class JenisDocumentUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class DetailPengajuanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreDetailPengajuanRequest $request)
+    public function store(StoreJenisDocumentUserRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class DetailPengajuanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(DetailPengajuan $detailPengajuan)
+    public function show(JenisDocumentUser $jenisDocumentUser)
     {
         //
     }
@@ -43,7 +43,7 @@ class DetailPengajuanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DetailPengajuan $detailPengajuan)
+    public function edit(JenisDocumentUser $jenisDocumentUser)
     {
         //
     }
@@ -51,7 +51,7 @@ class DetailPengajuanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDetailPengajuanRequest $request, DetailPengajuan $detailPengajuan)
+    public function update(UpdateJenisDocumentUserRequest $request, JenisDocumentUser $jenisDocumentUser)
     {
         //
     }
@@ -59,7 +59,7 @@ class DetailPengajuanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DetailPengajuan $detailPengajuan)
+    public function destroy(JenisDocumentUser $jenisDocumentUser)
     {
         //
     }

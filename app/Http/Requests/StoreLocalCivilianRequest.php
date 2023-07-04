@@ -23,7 +23,7 @@ class StoreLocalCivilianRequest extends FormRequest
     {
         return [
             "fullname" => "required|max:255",
-            "nik" => "required|regex:/^[0-9]+$/|unique:profiles,nik",
+            "nik" => "required|regex:/^[0-9]+$/|unique:profiles,nik|digits:16",
             "date_of_birth" => "required|date",
             "place_of_birth" => "required|max:255",
             "address" => "required|max:255"

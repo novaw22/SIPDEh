@@ -16,6 +16,7 @@ class SubmissionController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize("viewAny", Submission::class);
         $keyword = $request->query("q", "");
         $status = $request->query("status", "");
         $q = Submission::where("status", "!=", SubmissionStatuses::Cancelled->value)
@@ -43,6 +44,7 @@ class SubmissionController extends Controller
      */
     public function show(Submission $submission)
     {
+        $this->authorize("view", $submission);
         return view("admin.submissions.review")->with("submission", $submission);
     }
 
@@ -51,6 +53,7 @@ class SubmissionController extends Controller
      */
     public function update(UpdateSubmissionRequest $request, Submission $submission)
     {
+        $this->authorize("update", $submission);
         $data = $request->validated();
         $this->authorize("update", $submission);
         if($submission->status === SubmissionStatuses::Cancelled->value) {

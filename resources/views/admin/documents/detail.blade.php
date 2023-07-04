@@ -51,6 +51,10 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="mb-4">
+                            <label for="template" class="form-label">Template Dokumen</label>
+                            <a class="d-block" href="{{ route('assets.document.template', $document) }}" id="template" target="_blank">Lihat template dokumen</a>
+                        </div>
                         <label for="description" class="form-label d-block">User yang dapat mengajukan</label>
                         @foreach ($documentUsers as $documentUser)
                             <div class="form-check form-check-inline mb-4">
@@ -93,7 +97,7 @@
 {{-- <script>
     const addBtn = document.getElementById("add-special-term-btn");
     const addContainer = document.getElementById("special-term-container");
-    let index = 0;    
+    let index = 0;
     addBtn.onclick = () => {
         const div = document.createElement('div');
         div.className = 'w-100 rounded-2 mb-3';

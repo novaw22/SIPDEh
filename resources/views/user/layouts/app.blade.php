@@ -25,9 +25,9 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
-    
+
     <title>@yield("title") | SIPdeh</title>
-    
+
     <meta name="description" content="" />
     <meta name="csrf_token" content="{{ csrf_token() }}" />
     <!-- Favicon -->
@@ -35,13 +35,13 @@
 
     {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"> --}}
-    {{-- <!-- FontAwesome Icons --> 
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/libs/fontawesome-icons.css')}}"> 
+    {{-- <!-- FontAwesome Icons -->
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/libs/fontawesome-icons.css')}}">
 
-    <!-- Themify Icons --> 
+    <!-- Themify Icons -->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/libs/themify-icons.css')}}">  --}}
 
-    {{-- <!-- Bootstrap Icons --> 
+    {{-- <!-- Bootstrap Icons -->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/libs/bootstrap-icons.css')}}"> --}}
 
     <!-- Datatable style -->
@@ -84,9 +84,8 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('admin/assets/js/config.js') }}"></script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
     <!-- Boostrap Icon -->
     <link
       rel="stylesheet"
@@ -95,11 +94,11 @@
       crossorigin="anonymous"
     />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-    
+
     <!-- Latest compiled and minified JavaScript -->
-  
+
   </head>
 
   <body>
@@ -109,12 +108,12 @@
         <!-- Menu -->
 
         @include('user.layouts.components.sidebar')
-        
+
         <!-- / Menu -->
 
         <!-- Layout container -->
         <div class="layout-page">
-          
+
             @include('user.layouts.components.navbar')
 
           <!-- Content wrapper -->
@@ -122,7 +121,7 @@
             @yield('content')
             <div class="content-backdrop fade"></div>
           </div>
-          
+
           @include('user.layouts.components.footer')
           <!-- Content wrapper -->
         </div>
@@ -156,7 +155,7 @@
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-    {{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>  
+    {{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script> --}}
@@ -171,7 +170,7 @@
         $('#{{@$table_id}}_filter input').unbind();
         $('#{{@$table_id}}_filter input').bind('keyup', function(e) {
             if(e.keyCode == 13) {
-                table.search(this.value).draw();   
+                table.search(this.value).draw();
             }
         });
     });

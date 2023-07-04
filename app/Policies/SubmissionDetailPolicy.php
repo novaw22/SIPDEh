@@ -14,7 +14,7 @@ class SubmissionDetailPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 
     /**
@@ -30,7 +30,7 @@ class SubmissionDetailPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->role === UserRoles::User->value;
     }
 
     /**
@@ -38,7 +38,7 @@ class SubmissionDetailPolicy
      */
     public function update(User $user, SubmissionDetail $submissionDetail): bool
     {
-        //
+        return $user->role === UserRoles::User->value && $user->id === $submissionDetail->user->id;
     }
 
     /**
@@ -46,7 +46,7 @@ class SubmissionDetailPolicy
      */
     public function delete(User $user, SubmissionDetail $submissionDetail): bool
     {
-        //
+        return $user->role === UserRoles::User->value && $user->id === $submissionDetail->user->id;
     }
 
     /**

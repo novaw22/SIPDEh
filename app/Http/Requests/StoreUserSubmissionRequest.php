@@ -23,8 +23,9 @@ class StoreUserSubmissionRequest extends FormRequest
     {
         return [
             "name" => "required",
-            "file" => "required|max:10000|mimes:pdf",
-            "description" => "required|max:1000"
+            "file" => "required|max:10000|mimes:docx, doc",
+            "description" => "required|max:1000",
+            "is_softcopy" => "required|boolean"
         ];
     }
 }

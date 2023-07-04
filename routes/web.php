@@ -11,6 +11,7 @@ use App\Http\Controllers\Resource\SubmissionController;
 use App\Http\Controllers\User\UserSubmissionController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Asset\SubmissionAssetController;
+use App\Http\Controllers\Asset\JenisDocumentAssetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,8 +71,11 @@ Route::prefix("/admin")->middleware(["auth", "admin"])->name("admin.")->group(fu
 
 Route::prefix("/assets")->middleware(["auth"])->name("assets.")->group(function() {
     Route::prefix("/submission")->name("submission.")->group(function() {
-        Route::get("/file/{submission}", [SubmissionAssetController::class, "file"])->name("file");
-        Route::get("/soft_copy/{submission}",[SubmissionAssetController::class, "softCopy"])->name("softCopy");
-        Route::get("/details/{submissionDetail}", [SubmissionAssetController::class, "detail"])->name("detail");
+        Route::get("/{submission}/file", [SubmissionAssetController::class, "file"])->name("file");
+        Route::get("/{submission}/soft_copy",[SubmissionAssetController::class, "softCopy"])->name("softCopy");
+        Route::get("/{submissionDetail}/detail", [SubmissionAssetController::class, "detail"])->name("detail");
+    });
+    Route::prefix("/document")->name("document.")->group(function () {
+        Route::get("/{document}/template", [JenisDocumentAssetController::class, 'template'])->name('template');
     });
 });

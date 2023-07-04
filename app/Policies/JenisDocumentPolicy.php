@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\JenisDocument;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use App\Enums\UserRoles;
 
 class JenisDocumentPolicy
 {
@@ -13,7 +14,7 @@ class JenisDocumentPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +22,7 @@ class JenisDocumentPolicy
      */
     public function view(User $user, JenisDocument $jenisDocument): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -29,7 +30,7 @@ class JenisDocumentPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 
     /**
@@ -37,7 +38,7 @@ class JenisDocumentPolicy
      */
     public function update(User $user, JenisDocument $jenisDocument): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 
     /**
@@ -45,7 +46,7 @@ class JenisDocumentPolicy
      */
     public function delete(User $user, JenisDocument $jenisDocument): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 
     /**
@@ -53,7 +54,7 @@ class JenisDocumentPolicy
      */
     public function restore(User $user, JenisDocument $jenisDocument): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 
     /**
@@ -61,6 +62,6 @@ class JenisDocumentPolicy
      */
     public function forceDelete(User $user, JenisDocument $jenisDocument): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 }

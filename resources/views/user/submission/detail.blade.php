@@ -39,20 +39,22 @@
                               disabled
                             />
                         </div>
-                        <div class="mb-3">
-                            <label for="fullname" class="form-label">Tanggal Ambil</label>
-                            @empty($submission->pick_up_date)
-                                <small class="d-block fw-bold">Belum ada tanggal pengambilan !</small>
-                            @else
-                                <input
-                                type="date"
-                                class="form-control"
-                                id="fullname"
-                                value="{{ $submission->pick_up_date }}"
-                                disabled
-                            />
-                            @endempty
-                        </div>
+                        @if (!$submission->is_softcopy)
+                            <div class="mb-3">
+                                <label for="fullname" class="form-label">Tanggal Ambil</label>
+                                @empty($submission->pick_up_date)
+                                    <small class="d-block fw-bold">Belum ada tanggal pengambilan !</small>
+                                @else
+                                    <input
+                                    type="date"
+                                    class="form-control"
+                                    id="fullname"
+                                    value="{{ $submission->pick_up_date }}"
+                                    disabled
+                                />
+                                @endempty
+                            </div>
+                        @endif
                         <div class="mb-3">
                             <label for="description" class="form-label">Catatan dari Kaling</label>
                             <textarea disabled class="form-control" id="description"rows="5">@empty($submission->admin_note){{ "Tidak ada catatan dari kaling" }}@else{{ $submission->admin_note }}@endempty</textarea>

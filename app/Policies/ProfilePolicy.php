@@ -14,7 +14,7 @@ class ProfilePolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 
     /**
