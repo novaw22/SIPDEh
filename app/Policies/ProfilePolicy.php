@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use App\Enums\UserRoles;
 
 class ProfilePolicy
 {
@@ -13,7 +14,7 @@ class ProfilePolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 
     /**
@@ -21,7 +22,7 @@ class ProfilePolicy
      */
     public function view(User $user, Profile $profile): bool
     {
-        //
+        return ($profile->user->id === $user->id) || ($user->role === UserRoles::Admin->value);
     }
 
     /**
@@ -37,7 +38,7 @@ class ProfilePolicy
      */
     public function update(User $user, Profile $profile): bool
     {
-        //
+        return ($profile->user->id === $user->id) || ($user->role === UserRoles::Admin->value);
     }
 
     /**
@@ -45,7 +46,7 @@ class ProfilePolicy
      */
     public function delete(User $user, Profile $profile): bool
     {
-        //
+        return false;
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\LocalCivilian;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use App\Enums\UserRoles;
 
 class LocalCivilianPolicy
 {
@@ -13,7 +14,7 @@ class LocalCivilianPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 
     /**
@@ -21,7 +22,7 @@ class LocalCivilianPolicy
      */
     public function view(User $user, LocalCivilian $localCivilian): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 
     /**
@@ -29,7 +30,7 @@ class LocalCivilianPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 
     /**
@@ -37,7 +38,7 @@ class LocalCivilianPolicy
      */
     public function update(User $user, LocalCivilian $localCivilian): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 
     /**
@@ -45,7 +46,7 @@ class LocalCivilianPolicy
      */
     public function delete(User $user, LocalCivilian $localCivilian): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 
     /**
@@ -53,7 +54,7 @@ class LocalCivilianPolicy
      */
     public function restore(User $user, LocalCivilian $localCivilian): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 
     /**
@@ -61,6 +62,6 @@ class LocalCivilianPolicy
      */
     public function forceDelete(User $user, LocalCivilian $localCivilian): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 }

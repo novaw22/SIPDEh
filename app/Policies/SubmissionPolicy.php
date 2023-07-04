@@ -4,6 +4,8 @@ namespace App\Policies;
 
 use App\Models\Submission;
 use App\Models\User;
+use App\Enums\UserRoles;
+use App\Enums\SubmissionStatuses;
 use Illuminate\Auth\Access\Response;
 
 class SubmissionPolicy
@@ -13,7 +15,7 @@ class SubmissionPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->role === UserRoles::Admin->value;
     }
 
     /**
@@ -21,7 +23,7 @@ class SubmissionPolicy
      */
     public function view(User $user, Submission $submission): bool
     {
-        //
+        return ($submission->user->id === $user->id) || ($user->role === UserRoles::Admin->value);
     }
 
     /**
@@ -29,7 +31,7 @@ class SubmissionPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return ($user->role === UserRoles::User->value) && ($user->role != UserRoles::Admin->value);
     }
 
     /**
@@ -37,7 +39,7 @@ class SubmissionPolicy
      */
     public function update(User $user, Submission $submission): bool
     {
-        //
+        return ($submission->user->id === $user->id) || ($user->role === UserRoles::Admin->value) && ($submission->status != SubmissionStatuses::Accepted->value || $submission->status != SubmissionStatuses::Cancelled->value );
     }
 
     /**
@@ -45,7 +47,7 @@ class SubmissionPolicy
      */
     public function delete(User $user, Submission $submission): bool
     {
-        //
+        return (($submission->user->id === $user->id) || ($user->role === UserRoles::Admin->value)) && ($submission->status === SubmissionStatus::Pending->value || $submission->status === SubmissionStatus::Revised->value);
     }
 
     /**

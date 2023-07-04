@@ -17,4 +17,15 @@ class PageController extends Controller
         }
         return redirect()->route("landing");
     }
+
+    public function profile(Request $request) {
+        $user = $request->user();
+        if($user->role === UserRoles::Admin->value) {
+            return redirect()->route('admin.profile');
+        }
+        if($user->role === UserRoles::User->value) {
+            return redirect()->route('user.profile');
+        }
+        return redirect()->route("landing");
+    }
 }

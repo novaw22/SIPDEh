@@ -11,7 +11,7 @@ class UpdateLocalCivilianRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateLocalCivilianRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "fullname" => "required|max:255",
+            "nik" => "required|regex:/^[0-9]+$/|unique:profiles,nik",
+            "date_of_birth" => "required|date",
+            "place_of_birth" => "required|max:255",
+            "address" => "required|max:255"
         ];
     }
 }

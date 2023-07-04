@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
+use App\Enums\SubmissionStatuses;
 
 class UpdateSubmissionRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class UpdateSubmissionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,10 @@ class UpdateSubmissionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "status" => [new Enum(SubmissionStatuses::class)],
+            "pick_up_date" => "nullable|date",
+            "admin_note" => "nullable|max:500",
+            "soft_copy" => "nullable|file|mimes:pdf"
         ];
     }
 }

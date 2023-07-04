@@ -19,8 +19,8 @@
                 <div data-i18n="Analytics">Profile</div>
             </a>
         </li>
-        <li class="menu-item {{ (request()->is('user/kelola-dokumen*')) ? 'active' : '' }}">
-            <a href="/user/kelola-dokumen" class="menu-link">
+        <li class="menu-item {{ (request()->is('pengajuan*')) ? 'active' : '' }}">
+            <a href="{{ route('user.submission.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-folder"></i>
                 <div data-i18n="Basic">Pengajuan Dokumen</div>
             </a>

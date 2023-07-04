@@ -45,33 +45,37 @@
 					</div>
 					<div class="mt-4">
 						<ul class="list-group">
-							<li class="list-group-item" aria-current="true">
-								<div class="d-flex p-2 justify-content-between align-items-center">
+							@forelse ($submissions as $submission)
+								<li class="list-group-item" aria-current="true">
+									<div class="d-flex p-2 justify-content-between align-items-center">
+										<small>
+											<span>{{ $submission->jenis_document->name }}</span>
+											<small class="d-block text-muted">24 Juni 2023</small>
+										</small>
+										@if ($submission->status === "pending")
+											<small class="bg-warning px-2 rounded-3 text-white">menunggu</small>
+										@endif
+										@if ($submission->status === "accepted")
+											<small class="bg-success px-2 rounded-3 text-white">diterima</small>
+										@endif
+										@if ($submission->status === "rejected")
+											<small class="bg-danger px-2 rounded-3 text-white">ditolak</small>
+										@endif
+										@if ($submission->status === "need_tobe_revised")
+											<small class="bg-warning px-2 rounded-3 text-white">revisi</small>
+										@endif
+										@if ($submission->status === "cancelled")
+											<small class="bg-danger px-2 rounded-3 text-white">dibatalkan</small>
+										@endif
+									</div>
+								</li>
+							@empty
+								<li class="list-group-item">
 									<small>
-										<span>Document Pengantar Kematian</span>
-										<small class="d-block text-muted">24 Juni 2023</small>
+										<span>Belum ada pengajuan</span>
 									</small>
-									<small class="bg-warning px-2 rounded-3 text-white">menunggu</small>
-								</div>
-							</li>
-							<li class="list-group-item" aria-current="true">
-								<div class="d-flex p-2 justify-content-between align-items-center">
-									<small>Document Pengantar</small>
-									<small class="bg-warning px-2 rounded-3 text-white">menunggu</small>
-								</div>
-							</li>
-							<li class="list-group-item" aria-current="true">
-								<div class="d-flex p-2 justify-content-between align-items-center">
-									<small>Document Pengantar</small>
-									<small class="bg-danger px-2 rounded-3 text-white">ditolak</small>
-								</div>
-							</li>
-							<li class="list-group-item" aria-current="true">
-								<div class="d-flex p-2 justify-content-between align-items-center">
-									<small>Document Pengantar</small>
-									<small class="bg-success px-2 rounded-3 text-white">disetujui</small>
-								</div>
-							</li>
+								</li>
+							@endforelse
 						</ul>
 					</div>
 				</div>

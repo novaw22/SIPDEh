@@ -111,13 +111,13 @@
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="{{ route('user.profile') }}">
+                      <a class="dropdown-item" href="{{ route('profile') }}">
                         <i class="bx bxs-user-circle me-2"></i>
                         <small>Profile</small>
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="{{ route('user.dashboard') }}">
+                      <a class="dropdown-item" href="{{ route('dashboard') }}">
                         <i class="bx bx-list-ul me-2"></i>
                         <small>Dashboard</small>
                       </a>

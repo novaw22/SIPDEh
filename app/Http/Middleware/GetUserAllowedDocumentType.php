@@ -24,6 +24,11 @@ class GetUserAllowedDocumentType
                 ->where("user_status", $user->profile->status)
                 ->get();
             $types = JenisDocument::whereIn("id", $user_types)->get();
+            if($request->has("type")){
+                if(!$types->contains('id', $request->type)){
+                    return redirect()->route('user.submission.index')->with("warning", "anda tidak bisa mengajukan dokumen tersebut");
+                }
+            }
             $request->user_types = $types;
         }
         return $next($request);

@@ -45,4 +45,8 @@ class User extends Authenticatable
     public function profile() {
         return $this->hasOne(Profile::class);
     }
+
+    public function submissions() {
+        return $this->hasMany(Submission::class)->orderBy("updated_at", "desc");
+    }
 }

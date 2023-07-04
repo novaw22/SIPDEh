@@ -10,8 +10,10 @@ use App\Models\User;
 
 class DashboardController extends Controller
 {
-    public function dashboard() {
-        return view("user.dashboard");
+    public function dashboard(Request $request) {
+        $user = $request->user();
+        $submissions = $user->submissions->take(4);
+        return view("user.dashboard")->with("submissions", $submissions);
     }
     public function profile(Request $request) {
         $user = $request->user();

@@ -3,7 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Resource\JenisDocumentController;
+use App\Http\Controllers\Resource\UserController;
+use App\Http\Controllers\Resource\LocalCivilianController;
+use App\Http\Controllers\Resource\SubmissionController;
+use App\Http\Controllers\User\UserSubmissionController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\Asset\SubmissionAssetController;
+use App\Http\Controllers\Asset\JenisDocumentAssetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +29,7 @@ Route::get('/', function () {
 })->name("landing");
 
 Route::get("/dashboard/redirect", [PageController::class, "dashboard"])->middleware(["auth"])->name("dashboard");
+Route::get("/profile/redirect", [PageController::class, "profile"])->middleware(["auth"])->name("profile");
 
 Route::name("auth.")->group(function () {
     Route::middleware(["guest"])->group(function() {
@@ -36,10 +45,37 @@ Route::middleware(["auth", "user"])->name("user.")->group(function () {
     Route::get("/dashboard", [DashboardController::class, "dashboard"])->name("dashboard");
     Route::get("/profile", [DashboardController::class, "profile"])->name("profile");
     Route::patch('/{user}/profile/save', [DashboardController::class, 'profileSave'])->name("profile.save");
+
+    Route::prefix("/pengajuan")->name("submission.")->group(function() {
+        Route::middleware(["withUserAllowedDocumentTypes"])->group(function() {
+            Route::get("/", [UserSubmissionController::class, "index"])->name('index');
+            Route::get("/tambah", [UserSubmissionController::class, "create"])->name('create');
+        });
+        Route::get("/{submission}/detail", [UserSubmissionController::class, "detail"])->name("detail");
+        Route::get("/{submission}/edit", [UserSubmissionController::class, "edit"])->name("edit");
+        Route::post("/{type}", [UserSubmissionController::class, "store"])->name('store');
+        Route::patch("/{submission}", [UserSubmissionController::class, "update"])->name('update');
+        Route::patch("/{submission}/cancel", [UserSubmissionController::class, "cancel"])->name('cancel');
+    });
 });
 
 Route::prefix("/admin")->middleware(["auth", "admin"])->name("admin.")->group(function () {
-    Route::get("/dashboard", function() {
-        return "dashboard admin bang";
-    })->name("dashboard");
+    Route::resource("documents", JenisDocumentController::class);
+    Route::resource("users", UserController::class);
+    Route::resource("civilians", LocalCivilianController::class);
+    Route::resource("submissions", SubmissionController::class);
+    Route::get("/dashboard", [AdminDashboardController::class, "dashboard"])->name("dashboard");
+    Route::get("/profile", [AdminDashboardController::class, "profile"])->name("profile");
+    Route::patch('/{user}/profile/save', [AdminDashboardController::class, 'profileSave'])->name("profile.save");
+});
+
+Route::prefix("/assets")->middleware(["auth"])->name("assets.")->group(function() {
+    Route::prefix("/submission")->name("submission.")->group(function() {
+        Route::get("/{submission}/file", [SubmissionAssetController::class, "file"])->name("file");
+        Route::get("/{submission}/soft_copy",[SubmissionAssetController::class, "softCopy"])->name("softCopy");
+        Route::get("/{submissionDetail}/detail", [SubmissionAssetController::class, "detail"])->name("detail");
+    });
+    Route::prefix("/document")->name("document.")->group(function () {
+        Route::get("/{document}/template", [JenisDocumentAssetController::class, 'template'])->name('template');
+    });
 });
