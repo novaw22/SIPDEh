@@ -58,7 +58,7 @@
                               id="template"
                               name="template"
                               value="{{ old('template') }}"
-                              accept=".doc,.docx"
+                              accept="application/msword"
                               placeholder="Masukan template dokumen"
                             />
                             @error('template')
@@ -91,7 +91,7 @@
 <script>
     const addBtn = document.getElementById("add-special-term-btn");
     const addContainer = document.getElementById("special-term-container");
-    let index = 0;    
+    let index = 0;
     addBtn.onclick = () => {
         const div = document.createElement('div');
         div.className = 'w-100 rounded-2 mb-3';

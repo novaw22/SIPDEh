@@ -40,3 +40,4 @@ class DashboardController extends Controller
             return redirect()->back()->with("error", "terjadi kesalahan !");
         }
     }
+}

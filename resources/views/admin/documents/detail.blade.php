@@ -43,7 +43,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="description" class="form-label">Deskripsi Jenis Dokumen</label>
                             <textarea disabled class="form-control @error('description') is-invalid @enderror" id="description"
                             name="description" rows="5" placeholder="Deskripsi jenis dokumen">{{ $document->description }}</textarea>
@@ -97,7 +97,7 @@
 {{-- <script>
     const addBtn = document.getElementById("add-special-term-btn");
     const addContainer = document.getElementById("special-term-container");
-    let index = 0;    
+    let index = 0;
     addBtn.onclick = () => {
         const div = document.createElement('div');
         div.className = 'w-100 rounded-2 mb-3';

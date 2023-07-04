@@ -23,7 +23,7 @@ class LocalCivilianController extends Controller
             ->orderBy("fullname")
             ->paginate(5)
             ->withQueryString();
-        return view('admin.civilians.index')->with("civilians", $civilians);       
+        return view('admin.civilians.index')->with("civilians", $civilians);
     }
 
     /**

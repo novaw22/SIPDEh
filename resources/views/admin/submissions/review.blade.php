@@ -55,7 +55,7 @@
                                 />
                                 @error('pick_up_date')
                                     <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror     
+                                @enderror
                             </div>
                         @endif
                         <div class="mb-3">
@@ -78,7 +78,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
                         <h2 class="form-label fw-bold text-primary">*Pengajuan</h2>
                         <hr>
                         <div class="mb-3">
